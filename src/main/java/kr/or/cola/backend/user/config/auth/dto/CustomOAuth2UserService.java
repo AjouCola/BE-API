@@ -1,7 +1,7 @@
-package kr.or.cola.backend.user.config;
+package kr.or.cola.backend.user.config.auth.dto;
 
-import kr.or.cola.backend.user.config.dto.OAuthAttributes;
-import kr.or.cola.backend.user.config.dto.SessionUser;
+import kr.or.cola.backend.user.config.auth.dto.OAuthAttributes;
+import kr.or.cola.backend.user.config.auth.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
