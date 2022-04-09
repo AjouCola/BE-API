@@ -9,9 +9,16 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
+@Table(name="user_login")
+@SequenceGenerator(
+        name = "user_seq",
+        initialValue = 1,
+        allocationSize=1
+)
 public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name= "id")
     private Long id;
 
     @Column(nullable = false)
@@ -21,10 +28,6 @@ public class User{
     @Column(nullable = false)
     private String email;
 
-    // profile
-    private String name;
-
-    private String picture;
 
     @Builder
     public User(String email, Role role) {
