@@ -1,5 +1,6 @@
 package kr.or.cola.backend.user.domain;
 
+import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import javax.persistence.*;
         initialValue = 1,
         allocationSize=1
 )
-public class User{
+public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "id")
