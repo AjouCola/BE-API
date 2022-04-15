@@ -1,5 +1,7 @@
-package kr.or.cola.backend.user.config.auth.dto;
+package kr.or.cola.backend.user;
 
+import kr.or.cola.backend.user.config.auth.dto.OAuthAttributes;
+import kr.or.cola.backend.user.config.auth.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.userinfo.domain.UserInfoRepository;
 import kr.or.cola.backend.user.domain.UserRepository;
@@ -18,7 +20,7 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private  final UserRepository userRepository;
     private final HttpSession httpSession;
     private final UserInfoRepository userInfoReopsitory;
