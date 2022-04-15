@@ -1,6 +1,7 @@
-package kr.or.cola.backend.user.domain;
+package kr.or.cola.backend.userinfo.domain;
 
 import kr.or.cola.backend.common.BaseTimeEntity;
+import kr.or.cola.backend.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
