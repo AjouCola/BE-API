@@ -37,6 +37,13 @@ public class UserInfo extends BaseTimeEntity {
     @Column(name="profile", length = 4096)
     private String profile;
 
+    @Column(name="is_varified")
+    private boolean emailVerified;
+
     @Column(name="deleted_at")
     private Timestamp deleted_at;
+
+    public void emailVerifiedSuccess() {
+        emailVerified = true;
+    }
 }
