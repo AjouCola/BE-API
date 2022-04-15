@@ -3,6 +3,7 @@ package kr.or.cola.backend.user.config.auth.dto;
 import kr.or.cola.backend.user.config.auth.dto.OAuthAttributes;
 import kr.or.cola.backend.user.config.auth.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
+import kr.or.cola.backend.user.domain.UserInfoRepository;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +23,7 @@ import java.util.Collections;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private  final UserRepository userRepository;
     private final HttpSession httpSession;
+    private final UserInfoRepository userInfoReopsitory;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -34,8 +36,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(attributes);
+        if(!userInfoReopsitory.existsByUserId(user.getId())) {
+            // 회원가입 페이지로 리다이렉션
+        } else {
+            // 메인 페이지로 리다이렉션
+        }
 
         httpSession.setAttribute("user", new SessionUser(user));
+
+
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
