@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 
 public class MailService {
-
     private final JavaMailSender javaMailSender;
 
     @Async

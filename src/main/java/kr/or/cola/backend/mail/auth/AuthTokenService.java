@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class AuthTokenService {
-    private final AuthTokenRepository confirmationTokenRepository;
+    private final AuthTokenRepository authTokenRepository;
     private final MailService mailService;
     /**
      * 이메일 인증 토큰 생성
@@ -25,16 +25,16 @@ public class AuthTokenService {
         Assert.hasText(userId.toString(),"userId는 필수 입니다.");
         Assert.hasText(receiverEmail,"receiverEmail은 필수 입니다.");
 
-        AuthToken emailConfirmationToken = AuthToken.createEmailConfirmationToken(userId);
-        confirmationTokenRepository.save(emailConfirmationToken);
+        AuthToken authToken = AuthToken.createEmailConfirmationToken(userId);
+        authTokenRepository.save(authToken);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(receiverEmail);
         mailMessage.setSubject("회원가입 이메일 인증");
-        mailMessage.setText(emailConfirmationToken.getToken());
+        mailMessage.setText(authToken.getToken());
         mailService.sendEmail(mailMessage);
 
-        return emailConfirmationToken.getToken();
+        return authToken.getToken();
     }
 
     /**
@@ -43,7 +43,7 @@ public class AuthTokenService {
      * @return
      */
     public AuthToken findByTokenAndExpirationDateAfterAndExpired(String token){
-        Optional<AuthToken> confirmationToken = confirmationTokenRepository.findByTokenAndExpirationDateAfterAndExpired(token, LocalDateTime.now(),false);
+        Optional<AuthToken> confirmationToken = authTokenRepository.findByTokenAndExpirationDateAfterAndExpired(token, LocalDateTime.now(),false);
         return confirmationToken.orElseThrow(()-> new BadRequestException(EnvironmentCode.TOKEN_NOT_FOUND.name()));
     };
 
