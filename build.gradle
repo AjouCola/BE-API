@@ -28,6 +28,7 @@ dependencies {
 
 	// mail
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'javax.validation:validation-api'
 
 	// test
 	runtimeOnly 'com.h2database:h2'
