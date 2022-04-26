@@ -23,6 +23,9 @@ dependencies {
 	// oauth2
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
+	// swagger setting
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+
 	// session
 	implementation 'org.springframework.session:spring-session-jdbc'
 
