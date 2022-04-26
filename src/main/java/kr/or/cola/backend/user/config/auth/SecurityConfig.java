@@ -1,6 +1,7 @@
-package kr.or.cola.backend.user.config.auth.dto;
+package kr.or.cola.backend.user.config.auth;
 
 import kr.or.cola.backend.user.UserService;
+import kr.or.cola.backend.user.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
