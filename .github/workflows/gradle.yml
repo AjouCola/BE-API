@@ -32,7 +32,7 @@ jobs: # Job 설정
       - name: Build with Gradle # Gradle Build
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
         with:
-        arguments: build
+          arguments: build
      
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
