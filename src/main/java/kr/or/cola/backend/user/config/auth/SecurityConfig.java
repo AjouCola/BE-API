@@ -17,6 +17,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -44,7 +46,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint()
                     .userService(customOAuth2UserService)
                     .and()
-            .successHandler(oAuth2AuthenticationSuccessHandler);
+            .successHandler(oAuth2AuthenticationSuccessHandler)
+                .defaultSuccessUrl("/signup");
+
     }
 
 
