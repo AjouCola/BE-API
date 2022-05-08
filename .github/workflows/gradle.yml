@@ -66,8 +66,8 @@ jobs: # Job 설정
           --region ap-northeast-2 \
           ./cola_back.zip s3://cola-deploy/deploy/cola_back.zip
       - name: Deploy # Deploy to EC2
-        run: aws deploy create-deployment
-          --application-name deployApp
-          --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name cola
-          --s3-location bucket=cola-deploy,key=./cola_back.zip ,bundleType=zip
+        run: aws deploy create-deployment \
+          --application-name deployApp \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --deployment-group-name cola \
+          --s3-location bucket=cola-deploy,key=./cola_back.zip,bundleType=zip
