@@ -71,4 +71,4 @@ jobs: # Job 설정
           --application-name deployApp \
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --deployment-group-name cola \
-          --s3-location bucket=cola-deploy,key=./cola_back.zip,bundleType=zip
+          --s3-location bucket=cola-deploy,key=deploy/cola_back.zip,bundleType=zip
