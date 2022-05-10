@@ -13,6 +13,6 @@ public class SessionUser implements Serializable {
 
     public SessionUser(User user) {
         this.email = user.getEmail();
-        this.email = user.getRoleKey();
+        this.role = user.getRole();
     }
 }
