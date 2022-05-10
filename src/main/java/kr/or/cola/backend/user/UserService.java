@@ -1,8 +1,12 @@
-package kr.or.cola.backend.user.config.auth.dto;
+package kr.or.cola.backend.user;
 
+import kr.or.cola.backend.mail.auth.AuthToken;
+import kr.or.cola.backend.mail.auth.AuthTokenService;
 import kr.or.cola.backend.user.config.auth.dto.OAuthAttributes;
 import kr.or.cola.backend.user.config.auth.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
+import kr.or.cola.backend.userinfo.domain.UserInfo;
+import kr.or.cola.backend.userinfo.domain.UserInfoRepository;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,9 +23,11 @@ import java.util.Collections;
 
 @RequiredArgsConstructor
 @Service
-public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
+public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private  final UserRepository userRepository;
     private final HttpSession httpSession;
+    private final UserInfoRepository userInfoRepository;
+    private final AuthTokenService authTokenService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -42,13 +48,20 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.findByEmail(attributes.getEmail())
-                .orElse(attributes.toEntity());
+            .orElse(attributes.toEntity());
 
         return userRepository.save(user);
     }
-    public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElse(null);
-        return user;
+
+    /**
+     * 이메일 인증 로직
+     * @param token
+     */
+    public String confirmEmail(String token) {
+        AuthToken findAuthToken = authTokenService.findByTokenAndExpirationDateAfterAndExpired(token);
+        UserInfo findUserInfo = userInfoRepository.findByUserId(findAuthToken.getUserId());
+        findAuthToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true로 변경
+        findUserInfo.emailVerifiedSuccess();	// 유저의 이메일 인증 값 변경 로직을 구현해주면 된다. ex) emailVerified 값을 true로 변경
+        return "성공 짝짝";
     }
 }

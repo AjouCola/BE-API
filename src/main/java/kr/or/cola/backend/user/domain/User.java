@@ -23,12 +23,12 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     // email
     @Column(nullable = false)
     private String email;
-
 
     @Builder
     public User(String email, Role role) {
