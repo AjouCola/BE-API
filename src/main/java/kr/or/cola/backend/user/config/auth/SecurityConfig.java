@@ -11,22 +11,29 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .headers().frameOptions().disable()
-                .and()
-                    .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-                    .antMatchers("/api/v1/**").hasRole(Role.USER.name())
-                    .anyRequest().authenticated()
-                .and()
-                    .logout()
-                        .logoutSuccessUrl("/")
-                .and()
-                    .oauth2Login()
-                        .userInfoEndpoint()
-                            .userService(userService);
+        http
+            .cors()
+            .and()
+            .csrf()
+            .disable()
+            .authorizeRequests()
+//                .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
+//                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+            .antMatchers("/**").permitAll()
+//                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
+//                .anyRequest().authenticated()
+            .and()
+            .logout()
+            .logoutSuccessUrl("/")
+            .and()
+            .oauth2Login()
+            .userInfoEndpoint()
+            .userService(userService)
+            .and()
+            .successHandler(oAuth2AuthenticationSuccessHandler);
     }
 }

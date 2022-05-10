@@ -29,7 +29,6 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
     private final UserInfoRepository userInfoRepository;
     private final AuthTokenService authTokenService;
 
-
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
@@ -41,25 +40,19 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
 
         User user = saveOrUpdate(attributes);
-        if(!userInfoRepository.existsByUserId(user.getId())) {
-            // 회원가입 페이지로 리다이렉션
-        } else {
-            // 메인 페이지로 리다이렉션
-        }
 
         httpSession.setAttribute("user", new SessionUser(user));
-
-
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.findByEmail(attributes.getEmail())
-                .orElse(attributes.toEntity());
+            .orElse(attributes.toEntity());
 
         return userRepository.save(user);
     }
+
     /**
      * 이메일 인증 로직
      * @param token
