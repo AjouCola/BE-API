@@ -21,19 +21,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
                 .disable()
             .authorizeRequests()
-//                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/swagger*/**", "/v3/api-docs/**").permitAll()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-//                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
-                .and()
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
+                .antMatchers("/swagger*/**", "/v3/api-docs/**").permitAll()
+                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
+            .and()
             .logout()
                 .logoutSuccessUrl("/")
                 .and()
             .oauth2Login()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
                 .userInfoEndpoint()
-                    .userService(userService)
-                    .and()
-                .successHandler(oAuth2AuthenticationSuccessHandler);
+                    .userService(userService);
 
     }
 }
