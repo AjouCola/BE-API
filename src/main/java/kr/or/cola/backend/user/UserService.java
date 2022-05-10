@@ -53,6 +53,12 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return userRepository.save(user);
     }
 
+    public User findByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElse(null);
+        return user;
+    }
+
     /**
      * 이메일 인증 로직
      * @param token

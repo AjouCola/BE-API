@@ -33,8 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint()
                     .userService(userService)
                     .and()
-            .successHandler(oAuth2AuthenticationSuccessHandler)
-                .defaultSuccessUrl("/signup");
+                .successHandler(oAuth2AuthenticationSuccessHandler);
 
     }
 }
