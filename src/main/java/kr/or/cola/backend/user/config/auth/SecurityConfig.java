@@ -17,23 +17,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .cors()
-            .and()
+                .and()
             .csrf()
-            .disable()
+                .disable()
             .authorizeRequests()
-//                .antMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
-//                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-            .antMatchers("/**").permitAll()
+                .antMatchers("/**").permitAll()
 //                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-//                .anyRequest().authenticated()
-            .and()
+//                .anyRequest().hasRole(Role.User.name())
+                .and()
             .logout()
-            .logoutSuccessUrl("/")
-            .and()
+                .logoutSuccessUrl("/")
+                .and()
             .oauth2Login()
-            .userInfoEndpoint()
-            .userService(userService)
-            .and()
-            .successHandler(oAuth2AuthenticationSuccessHandler);
+                .userInfoEndpoint()
+                    .userService(userService)
+                    .and()
+                .successHandler(oAuth2AuthenticationSuccessHandler);
     }
 }
