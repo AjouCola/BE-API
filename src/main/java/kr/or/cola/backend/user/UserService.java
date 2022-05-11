@@ -2,8 +2,8 @@ package kr.or.cola.backend.user;
 
 import kr.or.cola.backend.mail.auth.AuthToken;
 import kr.or.cola.backend.mail.auth.AuthTokenService;
-import kr.or.cola.backend.user.config.auth.dto.OAuthAttributes;
-import kr.or.cola.backend.user.config.auth.dto.SessionUser;
+import kr.or.cola.backend.security.dto.OAuthAttributes;
+import kr.or.cola.backend.security.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.userinfo.domain.UserInfo;
 import kr.or.cola.backend.userinfo.domain.UserInfoRepository;

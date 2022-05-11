@@ -1,4 +1,4 @@
-package kr.or.cola.backend.user.config;
+package kr.or.cola.backend.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
