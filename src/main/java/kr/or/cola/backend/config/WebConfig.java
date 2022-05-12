@@ -1,6 +1,6 @@
-package kr.or.cola.backend.user.config;
+package kr.or.cola.backend.config;
 
-import kr.or.cola.backend.user.config.auth.LoginUserArgumentResolver;
+import kr.or.cola.backend.config.auth.LoginUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

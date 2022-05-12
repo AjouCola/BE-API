@@ -1,4 +1,4 @@
-package kr.or.cola.backend.user.config.auth;
+package kr.or.cola.backend.config.auth;
 
 import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.User;
