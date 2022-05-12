@@ -1,4 +1,4 @@
-package kr.or.cola.backend.security;
+package kr.or.cola.backend.oauth;
 
 import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.Role;
@@ -24,21 +24,21 @@ import static kr.or.cola.backend.user.domain.Role.USER;
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private final UserService customOAuth2UserService;
+    private final UserService userService;
 
     private RequestCache requestCache = new HttpSessionRequestCache();
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
 
         DefaultOAuth2User principal = (DefaultOAuth2User)authentication.getPrincipal();
 
-        User user = customOAuth2UserService.findByEmail((String)principal.getAttributes().get("email"));
+        User user = userService.findUserByEmail((String)principal.getAttributes().get("email"));
 
         if (user.getRole() == Role.GUEST) {  // 신규 로그인
-            String signUpUrl = "http://localhost:3000/signUp";
+            String signUpUrl = "http://cola.or.kr:3000/signUp";
             getRedirectStrategy().sendRedirect(request, response, signUpUrl);
         }
         else  if (user.getRole() == USER) {
@@ -50,7 +50,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     protected void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response,
-                                          Authentication authentication) throws IOException, ServletException {
+        Authentication authentication) throws IOException, ServletException {
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
@@ -58,7 +58,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             String targetUrl = savedRequest.getRedirectUrl();
             redirectStrategy.sendRedirect(request, response, targetUrl);
         } else {
-            redirectStrategy.sendRedirect(request, response, "http://localhost:3000");
+            redirectStrategy.sendRedirect(request, response, "http://cola.or.kr:3000");
         }
     }
 }

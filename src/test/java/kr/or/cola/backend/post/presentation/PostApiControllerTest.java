@@ -8,10 +8,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import kr.or.cola.backend.post.domain.Posts;
-import kr.or.cola.backend.post.domain.PostsRepository;
-import kr.or.cola.backend.post.presentation.dto.PostsSaveRequestDto;
-import kr.or.cola.backend.post.presentation.dto.PostsUpdateRequestDto;
+import kr.or.cola.backend.post.domain.Post;
+import kr.or.cola.backend.post.domain.PostRepository;
+import kr.or.cola.backend.post.presentation.dto.PostSaveRequestDto;
+import kr.or.cola.backend.post.presentation.dto.PostUpdateRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,7 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PostsApiControllerTest {
+public class PostApiControllerTest {
 
     @LocalServerPort
     private int port;
@@ -43,7 +40,7 @@ public class PostsApiControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private PostsRepository postsRepository;
+    private PostRepository postRepository;
 
     @Autowired
     private WebApplicationContext context;
@@ -60,7 +57,7 @@ public class PostsApiControllerTest {
 
     @AfterEach
     public void tearDown() throws Exception {
-        postsRepository.deleteAll();
+        postRepository.deleteAll();
     }
 
     @WithMockUser(roles = "USER")
@@ -69,7 +66,7 @@ public class PostsApiControllerTest {
         //given
         String title = "title";
         String content = "content";
-        PostsSaveRequestDto requestDto = PostsSaveRequestDto.builder()
+        PostSaveRequestDto requestDto = PostSaveRequestDto.builder()
                 .title(title)
                 .content(content)
                 .author("author")
@@ -84,7 +81,7 @@ public class PostsApiControllerTest {
         ).andExpect(status().isOk());
 
         //then
-        List<Posts> all = postsRepository.findAll();
+        List<Post> all = postRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(title);
         assertThat(all.get(0).getContent()).isEqualTo(content);
     }
@@ -93,24 +90,24 @@ public class PostsApiControllerTest {
     @Test
     public void Posts_수정된다() throws Exception {
         //given
-        Posts savedPosts = postsRepository.save(Posts.builder()
+        Post savedPost = postRepository.save(Post.builder()
             .title("title")
             .content("content")
             .author("author")
             .build());
 
-        Long updateId = savedPosts.getId();
+        Long updateId = savedPost.getId();
         String expectedTitle = "title";
         String expectedContent = "content";
 
-        PostsUpdateRequestDto requestDto = PostsUpdateRequestDto.builder()
+        PostUpdateRequestDto requestDto = PostUpdateRequestDto.builder()
             .title(expectedTitle)
             .content(expectedContent)
             .build();
 
         String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
-        HttpEntity<PostsUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
+        HttpEntity<PostUpdateRequestDto> requestEntity = new HttpEntity<>(requestDto);
 
         //when
         mvc.perform(put(url)
@@ -119,7 +116,7 @@ public class PostsApiControllerTest {
         ).andExpect(status().isOk());
 
         //then
-        List<Posts> all = postsRepository.findAll();
+        List<Post> all = postRepository.findAll();
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
 

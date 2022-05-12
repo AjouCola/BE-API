@@ -9,26 +9,37 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@Table(name="users")
 @Entity
-@Table(name="user_login")
-@SequenceGenerator(
-        name = "user_seq",
-        initialValue = 1,
-        allocationSize=1
-)
 public class User extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "id")
     private Long id;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     // email
     @Column(nullable = false)
     private String email;
+
+    private String name;
+
+    @Column(name="ajou_email")
+    private String ajouEmail;
+
+    @Column(name="git_email")
+    private String gitEmail;
+
+    private String department;
+
+    @Column(name="profile_path", length = 4096)
+    private String profilePath;
+
+    @Column(name="is_verified")
+    private boolean isVerified;
 
     @Builder
     public User(String email, Role role) {
@@ -40,6 +51,9 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
+    public void emailVerifiedSuccess() {
+        isVerified = true;
+    }
 
 
 }
