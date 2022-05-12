@@ -1,6 +1,5 @@
 package kr.or.cola.backend.user;
 
-import kr.or.cola.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

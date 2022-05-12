@@ -55,4 +55,5 @@ public class User extends BaseTimeEntity {
         isVerified = true;
     }
 
+
 }

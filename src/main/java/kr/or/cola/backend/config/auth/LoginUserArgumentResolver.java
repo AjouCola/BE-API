@@ -1,6 +1,5 @@
 package kr.or.cola.backend.config.auth;
 
-
 import kr.or.cola.backend.config.auth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;

@@ -1,5 +1,4 @@
 package kr.or.cola.backend.config.auth.dto;
-
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import lombok.Builder;

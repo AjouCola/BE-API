@@ -1,11 +1,18 @@
 package kr.or.cola.backend.config.auth;
 
 import kr.or.cola.backend.user.UserService;
+import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -20,38 +27,41 @@ import static kr.or.cola.backend.user.domain.Role.USER;
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private UserService userService;
+    private final UserService userService;
+
+    private RequestCache requestCache = new HttpSessionRequestCache();
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
 
-        HttpSession session = request.getSession();
-        if(session != null){
-            User user = userService.findUserByEmail(((User)authentication.getPrincipal()).getEmail());
-            if (user.getRole() == USER) {
-                // 메인 페이지로 리다이렉션
-                String redirectUrl = (String) session.getAttribute("mainPage");
-                if (redirectUrl != null) {
-                    session.removeAttribute("mainPage");
-                    getRedirectStrategy().sendRedirect(request, response, redirectUrl);
-                }
-            }
-            /*
-            else if (user.getRole() == ADMIN) {
-                // 관리자 페이지로 리다이렉션
-            }
-            */
-            else {  // 신규 로그인
-                super.onAuthenticationSuccess(request, response, authentication);
-            }
+        DefaultOAuth2User principal = (DefaultOAuth2User)authentication.getPrincipal();
+
+        User user = userService.findUserByEmail((String)principal.getAttributes().get("email"));
+
+        if (user.getRole() == Role.GUEST) {  // 신규 로그인
+            String signUpUrl = "http://cola.or.kr:3000/signUp";
+            getRedirectStrategy().sendRedirect(request, response, signUpUrl);
         }
-        else {  // 회원 아님 =>
+        else  if (user.getRole() == USER) {
+            resultRedirectStrategy(request, response, authentication);
+        }
+        else {
             super.onAuthenticationSuccess(request, response, authentication);
         }
-
-    }
-    protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        return "http://localhost:3000";
     }
 
+    protected void resultRedirectStrategy(HttpServletRequest request, HttpServletResponse response,
+        Authentication authentication) throws IOException, ServletException {
+
+        SavedRequest savedRequest = requestCache.getRequest(request, response);
+
+        if(savedRequest!=null) {
+            String targetUrl = savedRequest.getRedirectUrl();
+            redirectStrategy.sendRedirect(request, response, targetUrl);
+        } else {
+            redirectStrategy.sendRedirect(request, response, "http://cola.or.kr:3000");
+        }
+    }
 }
