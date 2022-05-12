@@ -1,7 +1,7 @@
-package kr.or.cola.backend.user.config.auth;
+package kr.or.cola.backend.security;
 
 
-import kr.or.cola.backend.user.config.auth.dto.SessionUser;
+import kr.or.cola.backend.security.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

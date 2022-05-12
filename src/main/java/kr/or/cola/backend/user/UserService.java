@@ -2,8 +2,8 @@ package kr.or.cola.backend.user;
 
 import kr.or.cola.backend.mail.auth.AuthToken;
 import kr.or.cola.backend.mail.auth.AuthTokenService;
-import kr.or.cola.backend.user.config.auth.dto.OAuthAttributes;
-import kr.or.cola.backend.user.config.auth.dto.SessionUser;
+import kr.or.cola.backend.security.dto.OAuthAttributes;
+import kr.or.cola.backend.security.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.userinfo.domain.UserInfo;
 import kr.or.cola.backend.userinfo.domain.UserInfoRepository;
@@ -51,6 +51,12 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
             .orElse(attributes.toEntity());
 
         return userRepository.save(user);
+    }
+
+    public User findByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElse(null);
+        return user;
     }
 
     /**

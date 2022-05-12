@@ -1,6 +1,7 @@
-package kr.or.cola.backend.user.config.auth;
+package kr.or.cola.backend.config;
 
 import kr.or.cola.backend.user.UserService;
+import kr.or.cola.backend.security.OAuth2AuthenticationSuccessHandler;
 import kr.or.cola.backend.user.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,20 +22,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
                 .disable()
             .authorizeRequests()
-//                .antMatchers("/", "/css/**", "/images/**", "/js/**", "/swagger*/**", "/v3/api-docs/**").permitAll()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-//                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
-                .and()
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
+                .antMatchers("/swagger*/**", "/v3/api-docs/**").permitAll()
+                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
+            .and()
             .logout()
                 .logoutSuccessUrl("/")
                 .and()
             .oauth2Login()
+                .successHandler(oAuth2AuthenticationSuccessHandler)
                 .userInfoEndpoint()
-                    .userService(userService)
-                    .and()
-            .successHandler(oAuth2AuthenticationSuccessHandler)
-                .defaultSuccessUrl("/signup");
+                    .userService(userService);
 
     }
 }
