@@ -1,4 +1,4 @@
-package kr.or.cola.backend.config.auth;
+package kr.or.cola.backend.oauth;
 
 import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.Role;
@@ -6,7 +6,6 @@ import kr.or.cola.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -18,10 +17,8 @@ import org.springframework.stereotype.Component;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static kr.or.cola.backend.user.domain.Role.ADMIN;
 import static kr.or.cola.backend.user.domain.Role.USER;
 
 @Component

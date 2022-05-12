@@ -1,4 +1,4 @@
-package kr.or.cola.backend.config.auth;
+package kr.or.cola.backend.oauth;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

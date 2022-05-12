@@ -1,4 +1,4 @@
-package kr.or.cola.backend.config.auth.dto;
+package kr.or.cola.backend.oauth.dto;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import lombok.Getter;
