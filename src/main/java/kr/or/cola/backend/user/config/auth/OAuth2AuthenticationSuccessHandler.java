@@ -1,6 +1,6 @@
 package kr.or.cola.backend.user.config.auth;
 
-import kr.or.cola.backend.user.config.auth.dto.CustomOAuth2UserService;
+import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -20,14 +20,14 @@ import static kr.or.cola.backend.user.domain.Role.USER;
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-    private CustomOAuth2UserService customOAuth2UserService;
+    private UserService userService;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
 
         HttpSession session = request.getSession();
         if(session != null){
-            User user = customOAuth2UserService.findByEmail(((User)authentication.getPrincipal()).getEmail());
+            User user = userService.findUserByEmail(((User)authentication.getPrincipal()).getEmail());
             if (user.getRole() == USER) {
                 // 메인 페이지로 리다이렉션
                 String redirectUrl = (String) session.getAttribute("mainPage");
