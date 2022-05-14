@@ -1,5 +1,4 @@
-package kr.or.cola.backend.user.config.auth.dto;
-
+package kr.or.cola.backend.oauth.dto;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import lombok.Builder;
@@ -27,7 +26,6 @@ public class OAuthAttributes {
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .email((String) attributes.get("email"))
-                .attributes(attributes)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
