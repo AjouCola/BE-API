@@ -1,7 +1,7 @@
 package kr.or.cola.backend.user;
 
-import kr.or.cola.backend.mail.auth.AuthToken;
-import kr.or.cola.backend.mail.auth.AuthTokenService;
+import kr.or.cola.backend.auth.AuthToken;
+import kr.or.cola.backend.auth.AuthTokenService;
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
@@ -22,9 +22,8 @@ import java.util.Collections;
 @RequiredArgsConstructor
 @Service
 public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private  final UserRepository userRepository;
+    private final UserRepository userRepository;
     private final HttpSession httpSession;
-    private final AuthTokenService authTokenService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -46,19 +45,6 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
             .orElse(null);
-    }
-
-    /**
-     * 이메일 인증 로직
-     * @param token
-     */
-    public String confirmEmail(String token) {
-        AuthToken findAuthToken = authTokenService.findByTokenAndExpirationDateAfterAndExpired(token);
-        User user = userRepository.findById(findAuthToken.getUserId())
-            .orElseThrow(() -> new RuntimeException("invalid user id"));
-        findAuthToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true로 변경
-        user.emailVerifiedSuccess();	// 유저의 이메일 인증 값 변경 로직을 구현해주면 된다. ex) emailVerified 값을 true로 변경
-        return "성공 짝짝";
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
