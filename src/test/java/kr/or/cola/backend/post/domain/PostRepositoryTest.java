@@ -1,4 +1,4 @@
-package kr.or.cola.backend.post.domain;
+//package kr.or.cola.backend.post.domain;
 //
 //import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 //
@@ -12,8 +12,9 @@ package kr.or.cola.backend.post.domain;
 //import org.springframework.test.context.junit.jupiter.SpringExtension;
 //
 //@ExtendWith(SpringExtension.class)
+//@SpringBootTest
+//public class PostRepositoryTest {
 ////@SpringBootTest
-public class PostRepositoryTest {
 //
 //    @Autowired
 //    PostRepository postRepository;
@@ -23,7 +24,7 @@ public class PostRepositoryTest {
 //        postRepository.deleteAll();
 //    }
 //
-////    @Test
+//    @Test
 //    public void 게시글저장_불러오기() {
 //        // given
 //        String title = "테스트 게시글";
@@ -44,7 +45,7 @@ public class PostRepositoryTest {
 //        assertThat(post.getContent()).isEqualTo(content);
 //    }
 //
-////    @Test
+//    @Test
 //    public void BaseTimeEntity_등록() {
 //       //given
 //       LocalDateTime now = LocalDateTime.of(2022,4,5,0,0,0);
@@ -64,4 +65,4 @@ public class PostRepositoryTest {
 //        assertThat(post.getModifiedDate()).isAfter(now);
 //    }
 //
-}
+//}

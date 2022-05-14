@@ -1,5 +1,7 @@
 package kr.or.cola.backend.auth;
 
+import kr.or.cola.backend.auth.dto.AuthConfirmRequestDto;
+import kr.or.cola.backend.auth.dto.AuthMailRequestDto;
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.UserService;
@@ -19,15 +21,15 @@ public class AuthTokenController {
     private final UserService userService;
 
     @PostMapping("/mail")
-    public ResponseEntity<String> sendAuthMail(@LoginUser SessionUser loginUser, @RequestBody String email) {
-        authTokenService.sendAuthMail(loginUser.getId(), email);
+    public ResponseEntity<String> sendAuthMail(@LoginUser SessionUser loginUser, AuthMailRequestDto authMailRequestDto) {
+        authTokenService.sendAuthMail(loginUser.getUserId(), authMailRequestDto.getEmail());
 
         return ResponseEntity.ok(new String("인증 이메일이 전송되었습니다."));
     }
 
     @PostMapping("/confirm")
-    public ResponseEntity<String> viewConfirmEmail(@RequestBody String token){
-        authTokenService.confirmEmail(token);
+    public ResponseEntity<String> viewConfirmEmail(AuthConfirmRequestDto authConfirmRequestDto){
+        authTokenService.confirmEmail(authConfirmRequestDto.getToken());
         return ResponseEntity.ok(new String("인증이 완료되었습니다."));
     }
 }

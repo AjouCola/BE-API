@@ -1,4 +1,4 @@
-package kr.or.cola.backend.post.presentation;
+//package kr.or.cola.backend.post.presentation;
 //
 //import static org.assertj.core.api.Assertions.assertThat;
 //import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -30,8 +30,8 @@ package kr.or.cola.backend.post.presentation;
 //
 //
 //@ExtendWith(SpringExtension.class)
-////@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PostApiControllerTest {
+//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//public class PostApiControllerTest {
 //
 //    @LocalServerPort
 //    private int port;
@@ -121,4 +121,4 @@ public class PostApiControllerTest {
 //        assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
 //
 //    }
-}
+//}
