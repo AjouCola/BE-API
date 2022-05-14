@@ -1,5 +1,6 @@
-package kr.or.cola.backend.user;
+package kr.or.cola.backend.user.presentation;
 
+import kr.or.cola.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

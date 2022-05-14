@@ -1,11 +1,19 @@
 package kr.or.cola.backend.post.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import kr.or.cola.backend.comment.domain.Comment;
 import kr.or.cola.backend.common.BaseTimeEntity;
+import kr.or.cola.backend.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +25,7 @@ public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long id;
 
     @Column(length = 500, nullable = false)
@@ -25,13 +34,18 @@ public class Post extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private User user;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, String author) {
+    public Post(String title, String content, User user) {
         this.title = title;
         this.content = content;
-        this.author = author;
+        this.user = user;
     }
 
     public void update(String title, String content) {
