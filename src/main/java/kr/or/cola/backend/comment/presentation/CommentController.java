@@ -32,8 +32,7 @@ public class CommentController {
     @PatchMapping("/comments/{commentId}")
     public ResponseEntity<Void> updateComment(@LoginUser SessionUser user,
         @PathVariable Long commentId, @RequestBody CommentCreateOrUpdateRequestDto requestDto) {
-        commentService.updateComment(user.getUserId(),
-            commentId, requestDto);
+        commentService.updateComment(user.getUserId(), commentId, requestDto);
         return ResponseEntity.ok().build();
     }
 

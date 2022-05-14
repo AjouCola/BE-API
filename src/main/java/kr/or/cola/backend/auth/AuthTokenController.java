@@ -20,7 +20,7 @@ public class AuthTokenController {
 
     @PostMapping("/mail")
     public ResponseEntity<String> sendAuthMail(@LoginUser SessionUser loginUser, @RequestBody String email) {
-        authTokenService.sendAuthMail(loginUser.getId(), email);
+        authTokenService.sendAuthMail(loginUser.getUserId(), email);
 
         return ResponseEntity.ok(new String("인증 이메일이 전송되었습니다."));
     }
