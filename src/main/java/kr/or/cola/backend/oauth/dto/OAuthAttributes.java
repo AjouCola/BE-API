@@ -27,7 +27,6 @@ public class OAuthAttributes {
         return OAuthAttributes.builder()
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
-                .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }
