@@ -15,7 +15,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
-    @Value("${config.allowed-origins}")
+    @Value("${cola.config.allowed-origins}")
     private String allowedOrigins;
 
     @Override
