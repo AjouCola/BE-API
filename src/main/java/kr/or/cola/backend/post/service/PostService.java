@@ -40,16 +40,15 @@ public class PostService {
         return postRepository.save(post).getId();
     }
 
-    public void update(Long id, PostUpdateRequestDto requestDto) {
+    public void updatePost(Long id, PostUpdateRequestDto requestDto) {
         Post post = postRepository.findById(id).orElseThrow(() ->
             new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
         post.update(requestDto.getTitle(), requestDto.getContent());
     }
 
-    public void delete(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(()->
-            new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+    public void deletePost(Long postId) {
+        Post post = findPostById(postId);
         postRepository.delete(post);
     }
 
@@ -60,11 +59,6 @@ public class PostService {
             .collect(Collectors.toList());
     }
 
-    private Post findPostById(Long postId) {
-        return postRepository.findById(postId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid Post ID id=" + postId));
-    }
-
     @Transactional(readOnly = true)
     public Post initializePostInfo(Long postId) {
         Post post = findPostById(postId);
@@ -72,9 +66,14 @@ public class PostService {
         return post;
     }
 
+    private Post findPostById(Long postId) {
+        return postRepository.findById(postId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid Post ID: id=" + postId));
+    }
+
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID. id=" + userId));
+            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
     }
 
 }
