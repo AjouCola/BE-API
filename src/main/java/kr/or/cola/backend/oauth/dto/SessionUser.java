@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 @Getter
 public class SessionUser implements Serializable {
+
     private Long userId;
     private String email;
     private Role role;

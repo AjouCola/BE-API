@@ -14,6 +14,7 @@
 //@ExtendWith(SpringExtension.class)
 //@SpringBootTest
 //public class PostRepositoryTest {
+////@SpringBootTest
 //
 //    @Autowired
 //    PostRepository postRepository;

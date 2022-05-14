@@ -1,4 +1,4 @@
-package kr.or.cola.backend.mail.auth;
+package kr.or.cola.backend.auth;
 
 import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.*;
