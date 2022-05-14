@@ -7,11 +7,11 @@ import lombok.Getter;
 
 @Getter
 public class SimplePostResponseDto {
-    private Long postId;
-    private String title;
-    private SimpleUserResponseDto userInfo;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    private final Long postId;
+    private final String title;
+    private final SimpleUserResponseDto userInfo;
+    private final LocalDateTime createdDate;
+    private final LocalDateTime modifiedDate;
 
     public SimplePostResponseDto(Post entity) {
         this.postId = entity.getId();

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PostCreateRequestDto {
+
     @NotNull(message = "Invalid title")
     private String title;
 

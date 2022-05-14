@@ -1,5 +1,6 @@
 package kr.or.cola.backend.post.presentation.dto;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,8 @@ public class PostResponseDto {
     private final String content;
     private final SimpleUserResponseDto userInfo;
     private final List<CommentResponseDto> comments;
+    private final LocalDateTime createdDate;
+    private final LocalDateTime modifiedDate;
 
     @Builder
     public PostResponseDto(Post entity) {
@@ -28,5 +31,7 @@ public class PostResponseDto {
             .stream()
             .map(CommentResponseDto::new)
             .collect(Collectors.toList());
+        this.createdDate = entity.getCreatedDate();
+        this.modifiedDate = entity.getModifiedDate();
     }
 }
