@@ -1,28 +1,28 @@
 package kr.or.cola.backend.post.presentation.dto;
 
+import javax.validation.constraints.NotNull;
 import kr.or.cola.backend.post.domain.Post;
-import lombok.Builder;
+import kr.or.cola.backend.user.domain.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class PostSaveRequestDto {
+public class PostCreateRequestDto {
+    @NotNull(message = "Invalid title")
     private String title;
+
+    @NotNull(message = "Invalid content")
     private String content;
-    private String author;
-    @Builder
-    public PostSaveRequestDto(String title, String content, String author) {
-        this.title = title;
-        this.content = content;
-        this.author = author;
-    }
+
+    @NotNull(message = "Invalid user")
+    private User user;
 
     public Post toEntity() {
         return Post.builder()
                 .title(title)
                 .content(content)
-                .author(author)
+                .user(user)
                 .build();
     }
 }

@@ -2,20 +2,19 @@ package kr.or.cola.backend.post.presentation.dto;
 
 import java.time.LocalDateTime;
 import kr.or.cola.backend.post.domain.Post;
-import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.Getter;
 
 @Getter
-public class PostListResponseDto {
-    private Long id;
+public class SimplePostResponseDto {
+    private Long postId;
     private String title;
     private SimpleUserResponseDto userInfo;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
-    public PostListResponseDto(Post entity) {
-        this.id = entity.getId();
+    public SimplePostResponseDto(Post entity) {
+        this.postId = entity.getId();
         this.title = entity.getTitle();
         this.userInfo = new SimpleUserResponseDto(entity.getUser());
         this.createdDate = entity.getCreatedDate();
