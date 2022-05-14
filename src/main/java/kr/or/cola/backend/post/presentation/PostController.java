@@ -26,8 +26,8 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("")
-    public ResponseEntity<Long> createPost(@LoginUser SessionUser loginUser, @RequestBody PostCreateRequestDto requestDto) {
-        Long postId = postService.save(requestDto);
+    public ResponseEntity<Long> createPost(@LoginUser SessionUser user, @RequestBody PostCreateRequestDto requestDto) {
+        Long postId = postService.createPost(user.getUserId(), requestDto);
         return ResponseEntity.ok(postId);
     }
 

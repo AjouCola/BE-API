@@ -15,14 +15,4 @@ public class PostCreateRequestDto {
     @NotNull(message = "Invalid content")
     private String content;
 
-    @NotNull(message = "Invalid user")
-    private User user;
-
-    public Post toEntity() {
-        return Post.builder()
-                .title(title)
-                .content(content)
-                .user(user)
-                .build();
-    }
 }
