@@ -1,10 +1,9 @@
 package kr.or.cola.backend.post.presentation.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import kr.or.cola.backend.comment.controller.dto.CommentResponseDto;
+import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
 import kr.or.cola.backend.post.domain.Post;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.Builder;
