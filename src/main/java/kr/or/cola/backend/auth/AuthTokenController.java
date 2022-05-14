@@ -4,28 +4,31 @@ import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
 
-@Controller
-@RequestMapping("/api/v1/auth")
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("api/v1/auth")
 public class AuthTokenController {
     private final AuthTokenService authTokenService;
     private final UserService userService;
 
     @PostMapping("/mail")
-    public void sendAuthMail(@LoginUser SessionUser loginUser, @RequestBody String email) {
+    public ResponseEntity<String> sendAuthMail(@LoginUser SessionUser loginUser, @RequestBody String email) {
         authTokenService.sendAuthMail(loginUser.getId(), email);
+
+        return ResponseEntity.ok(new String("인증 이메일이 전송되었습니다."));
     }
 
     @PostMapping("/confirm")
-    public String viewConfirmEmail(@Valid @RequestBody String token){
-        return authTokenService.confirmEmail(token);
+    public ResponseEntity<String> viewConfirmEmail(@RequestBody String token){
+        authTokenService.confirmEmail(token);
+        return ResponseEntity.ok(new String("인증이 완료되었습니다."));
     }
 }
 

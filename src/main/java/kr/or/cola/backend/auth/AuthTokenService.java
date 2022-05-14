@@ -52,15 +52,14 @@ public class AuthTokenService {
      * 이메일 인증 로직
      * @param token
      */
-    public String confirmEmail(String token) {
+    public void confirmEmail(String token) {
         AuthToken findAuthToken = findByTokenAndExpirationDateAfterAndExpired(token);
         User user = userRepository.findById(findAuthToken.getUserId())
                 .orElseThrow(() -> new RuntimeException("invalid user id"));
         findAuthToken.useToken();	// 토큰 만료 로직을 구현해주면 된다. ex) expired 값을 true로 변경
 //        user.emailVerifiedSuccess();	// 유저의 이메일 인증 값 변경 로직을 구현해주면 된다. ex) emailVerified 값을 true로 변경
 //        userRepository.save(user);
-        
-        return "성공 짝짝";
+
     }
 
 }
