@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/**").permitAll()
                 .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
                 .antMatchers("/swagger*/**", "/v3/api-docs/**").permitAll()
+                .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
             .and()
             .logout()

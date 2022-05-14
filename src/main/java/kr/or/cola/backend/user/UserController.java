@@ -3,17 +3,12 @@ package kr.or.cola.backend.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/v1/user")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("confirm-email")
-    public String viewConfirmEmail(@Valid @RequestBody String token){
 
-        return userService.confirmEmail(token);
-    }
 }
