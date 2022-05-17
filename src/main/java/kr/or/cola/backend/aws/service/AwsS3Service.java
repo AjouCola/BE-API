@@ -1,6 +1,7 @@
-package kr.or.cola.backend.common.service;
+package kr.or.cola.backend.aws.service;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -29,12 +30,12 @@ public class AwsS3Service {
     private final AmazonS3 amazonS3;
 
     public List<String> uploadFile(List<MultipartFile> files) {
-        List<String> fileNameList = new ArrayList<>();
+        List<String> fileUrlList = new ArrayList<>();
 
         // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
         files.forEach(file -> {
             if(!Objects.requireNonNull(file.getContentType()).startsWith("image")){
-                return;
+                throw new IllegalArgumentException("이미지 파일이 아닙니다.");
             }
             String fileName = createFileName(file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -48,10 +49,10 @@ public class AwsS3Service {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
             }
 
-            fileNameList.add(fileName);
+            fileUrlList.add(getFileUrl(fileName));
         });
 
-        return fileNameList;
+        return fileUrlList;
     }
 
     public void deleteFile(String fileName) {
@@ -71,6 +72,10 @@ public class AwsS3Service {
         } catch (StringIndexOutOfBoundsException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }
+    }
+
+    private String getFileUrl(String fileName) {
+        return amazonS3.getUrl(bucket, fileName).toString();
     }
 
 }
