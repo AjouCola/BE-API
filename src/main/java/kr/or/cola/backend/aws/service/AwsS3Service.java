@@ -32,7 +32,6 @@ public class AwsS3Service {
     public List<String> uploadFile(List<MultipartFile> files) {
         List<String> fileUrlList = new ArrayList<>();
 
-        // forEach 구문을 통해 multipartFile로 넘어온 파일들 하나씩 fileNameList에 추가
         files.forEach(file -> {
             if(!Objects.requireNonNull(file.getContentType()).startsWith("image")){
                 throw new IllegalArgumentException("이미지 파일이 아닙니다.");
