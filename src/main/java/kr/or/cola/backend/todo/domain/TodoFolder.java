@@ -1,4 +1,4 @@
-package kr.or.cola.backend.todo.folder.domain;
+package kr.or.cola.backend.todo.domain;
 
 import kr.or.cola.backend.user.domain.User;
 
