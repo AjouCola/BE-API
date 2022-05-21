@@ -1,8 +1,7 @@
-package kr.or.cola.backend.todo.dto;
+package kr.or.cola.backend.todo.presentation.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package kr.or.cola.backend.todo.dto;
+package kr.or.cola.backend.todo.presentation.dto;
 
 public class TodoItemDto {
     private Long folderId;
