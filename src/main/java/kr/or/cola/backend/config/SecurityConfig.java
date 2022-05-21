@@ -1,5 +1,6 @@
 package kr.or.cola.backend.config;
 
+import java.net.MalformedURLException;
 import kr.or.cola.backend.oauth.OAuth2AuthenticationSuccessHandler;
 import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.Role;
@@ -10,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -48,5 +51,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     SimpleUrlAuthenticationFailureHandler failureHandler() {
         return new SimpleUrlAuthenticationFailureHandler(signInUrl);
+    }
+
+    @Bean
+    public CookieSerializer cookieSerializer() throws MalformedURLException {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+//        serializer.setCookieName("SESSION");
+        serializer.setSameSite("None");
+        serializer.setUseSecureCookie(true);
+        return serializer;
     }
 }
