@@ -54,11 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public CookieSerializer cookieSerializer() throws MalformedURLException {
+    public CookieSerializer cookieSerializer() {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-//        serializer.setCookieName("SESSION");
-        serializer.setSameSite("");
         serializer.setUseSecureCookie(true);
-        return serializer;
+        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+        serializer.setSameSite("None"); return serializer;
     }
+
 }
