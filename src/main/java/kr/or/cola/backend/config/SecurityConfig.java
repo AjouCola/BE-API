@@ -31,11 +31,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf()
                 .disable()
             .authorizeRequests()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
-//                .antMatchers("/swagger*/**", "/v3/api-docs/**").permitAll()
-//                .antMatchers("/api/v1/auth/**").permitAll()
-//                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
+//                .antMatchers("/**").permitAll()
+                .antMatchers("/", "/css/**", "/images/**", "/js/**").permitAll()
+                .antMatchers("/swagger*/**", "/v3/api-docs/**").permitAll()
+                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers("/api/v1/**").hasRole(Role.USER.name())
             .and()
             .logout()
                 .logoutSuccessUrl("/")
@@ -53,12 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new SimpleUrlAuthenticationFailureHandler(signInUrl);
     }
 
-    @Bean
-    public CookieSerializer cookieSerializer() {
-        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-        serializer.setUseSecureCookie(true);
-        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
-        serializer.setSameSite("None"); return serializer;
-    }
+//    @Bean
+//    public CookieSerializer cookieSerializer() {
+//        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+//        serializer.setUseSecureCookie(true);
+//        serializer.setCookiePath("/");
+////        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
+//        serializer.setSameSite("None");
+//        return serializer;
+//    }
 
 }
