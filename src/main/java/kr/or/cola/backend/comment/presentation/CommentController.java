@@ -1,12 +1,14 @@
 package kr.or.cola.backend.comment.presentation;
 
 import kr.or.cola.backend.comment.presentation.dto.CommentCreateOrUpdateRequestDto;
+import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
 import kr.or.cola.backend.comment.service.CommentService;
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +23,17 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    @GetMapping("/comments/{commentId}")
+    public ResponseEntity<CommentResponseDto> getComment(@PathVariable Long commentId) {
+        return ResponseEntity.ok(commentService.getComment(commentId));
+    }
+
     @PostMapping("/posts/{postId}/comments")
-    public ResponseEntity<Long> createComment(@LoginUser SessionUser user,
+    public ResponseEntity<CommentResponseDto> createComment(@LoginUser SessionUser user,
         @PathVariable Long postId, @RequestBody CommentCreateOrUpdateRequestDto requestDto) {
-        Long commentId = commentService.createComment(user.getUserId(),
-            postId, requestDto);
-        return ResponseEntity.ok(commentId);
+        CommentResponseDto responseDto = new CommentResponseDto(
+            commentService.createComment(user.getUserId(), postId, requestDto));
+        return ResponseEntity.ok(responseDto);
     }
 
     @PatchMapping("/comments/{commentId}")

@@ -28,7 +28,7 @@ public class CommentService {
         return new CommentResponseDto(initializeCommentInfo(commentId));
     }
 
-    public Long createComment(Long userId, Long postId, CommentCreateOrUpdateRequestDto requestDto) {
+    public Comment createComment(Long userId, Long postId, CommentCreateOrUpdateRequestDto requestDto) {
         User user = findUserById(userId);
         Post post = findPostById(postId);
         Comment comment = Comment.builder()
@@ -36,7 +36,7 @@ public class CommentService {
             .post(post)
             .content(requestDto.getContent())
             .build();
-        return commentRepository.save(comment).getId();
+        return commentRepository.save(comment);
     }
 
     public void updateComment(Long userId, Long commentId, CommentCreateOrUpdateRequestDto requestDto) {
