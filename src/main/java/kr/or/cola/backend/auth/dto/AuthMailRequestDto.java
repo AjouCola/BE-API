@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public class AuthMailRequestDto {
-    private final String email;
+    private String email;
 
     public AuthMailRequestDto(String email){
         this.email = email;
