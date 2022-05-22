@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         DefaultCookieSerializer serializer = new DefaultCookieSerializer();
         serializer.setUseSecureCookie(true);
         serializer.setCookiePath("/");
-        serializer.setDomainName(".cola.or.kr");
+        serializer.setDomainName("cola.or.kr");
         return serializer;
     }
 
