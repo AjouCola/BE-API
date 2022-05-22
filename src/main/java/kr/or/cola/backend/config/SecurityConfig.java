@@ -53,14 +53,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new SimpleUrlAuthenticationFailureHandler(signInUrl);
     }
 
-//    @Bean
-//    public CookieSerializer cookieSerializer() {
-//        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
-//        serializer.setUseSecureCookie(true);
-//        serializer.setCookiePath("/");
-////        serializer.setDomainNamePattern("^.+?\\.(\\w+\\.[a-z]+)$");
-//        serializer.setSameSite("None");
-//        return serializer;
-//    }
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setUseSecureCookie(true);
+        serializer.setCookiePath("/");
+        serializer.setDomainNamePattern(".cola.or.kr");
+        serializer.setSameSite("None");
+        return serializer;
+    }
 
 }
