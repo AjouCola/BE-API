@@ -35,7 +35,7 @@ public class User extends BaseTimeEntity {
     private String gitEmail;
 
     @Enumerated(EnumType.STRING)
-    private Major department;
+    private Department department;
 
     @Column(name="profile_path", length = 4096)
     private String profilePath;
