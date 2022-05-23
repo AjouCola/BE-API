@@ -13,6 +13,9 @@ import kr.or.cola.backend.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +46,8 @@ public class PostController {
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<SimplePostResponseDto>> getPosts(final Pageable pageable) {
+    public ResponseEntity<Page<SimplePostResponseDto>> getPosts(
+        @PageableDefault(size = 12, sort = {"post_id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<SimplePostResponseDto> posts = postService.findAllPosts(pageable);
         return ResponseEntity.ok(posts);
     }
