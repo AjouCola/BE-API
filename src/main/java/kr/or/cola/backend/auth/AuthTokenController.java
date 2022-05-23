@@ -5,6 +5,8 @@ import kr.or.cola.backend.auth.dto.AuthMailRequestDto;
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.UserService;
+import kr.or.cola.backend.user.domain.User;
+import kr.or.cola.backend.auth.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +33,12 @@ public class AuthTokenController {
     public ResponseEntity<String> viewConfirmEmail(@RequestBody AuthConfirmRequestDto authConfirmRequestDto){
         authTokenService.confirmEmail(authConfirmRequestDto.getToken());
         return ResponseEntity.ok(new String("인증이 완료되었습니다."));
+    }
+
+    @PostMapping("/signUp")
+    public ResponseEntity<User> signUp(@LoginUser SessionUser sessionUser, @RequestBody SignUpRequestDto requestDto) {
+        User user = userService.signUp(sessionUser.getUserId(), requestDto);
+        return ResponseEntity.ok(user);
     }
 }
 

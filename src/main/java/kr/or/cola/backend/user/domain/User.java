@@ -4,10 +4,11 @@ import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @Table(name="users")
 @Entity
@@ -33,7 +34,7 @@ public class User extends BaseTimeEntity {
     @Column(name="git_email")
     private String gitEmail;
 
-    private String department;
+    private Major department;
 
     @Column(name="profile_path", length = 4096)
     private String profilePath;
@@ -50,10 +51,4 @@ public class User extends BaseTimeEntity {
     public String getRoleKey() {
         return this.role.getKey();
     }
-
-    public void emailVerifiedSuccess() {
-        isVerified = true;
-    }
-
-
 }
