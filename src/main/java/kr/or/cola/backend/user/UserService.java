@@ -1,7 +1,6 @@
 package kr.or.cola.backend.user;
 
-import kr.or.cola.backend.auth.AuthToken;
-import kr.or.cola.backend.auth.AuthTokenService;
+import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;
@@ -52,5 +51,10 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
             .orElse(attributes.toEntity());
 
         return userRepository.save(user);
+    }
+
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
     }
 }
