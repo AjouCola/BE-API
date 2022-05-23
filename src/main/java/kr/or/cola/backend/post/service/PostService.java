@@ -61,6 +61,7 @@ public class PostService {
             .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public Page<SimplePostResponseDto> findAllPosts(Pageable pageable) {
         return postRepository.findAll(pageable)
             .map(SimplePostResponseDto::new);
