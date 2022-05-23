@@ -36,8 +36,8 @@ public class AuthTokenController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<User> signUp(@LoginUser SessionUser sUser, @RequestBody SignUpRequestDto requestDto) {
-        User user = userService.signUp(sUser.getUserId(), requestDto);
+    public ResponseEntity<User> signUp(@LoginUser SessionUser sessionUser, @RequestBody SignUpRequestDto requestDto) {
+        User user = userService.signUp(sessionUser.getUserId(), requestDto);
         return ResponseEntity.ok(user);
     }
 }
