@@ -4,10 +4,11 @@ import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @Table(name="users")
 @Entity
