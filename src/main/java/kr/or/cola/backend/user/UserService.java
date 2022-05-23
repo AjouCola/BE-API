@@ -42,21 +42,9 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-            .orElse(null);
-    }
-
-    private User saveOrUpdate(OAuthAttributes attributes) {
-        User user = userRepository.findByEmail(attributes.getEmail())
-            .orElse(attributes.toEntity());
-
-        return userRepository.save(user);
-    }
-
     public User signUp(Long userId, SignUpRequestDto signUpRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() ->
-                new IllegalArgumentException("Invalid User ID: id=" + userId));
+            new IllegalArgumentException("Invalid User ID: id=" + userId));
 
         user.setName(signUpRequestDto.getName());
         user.setDepartment(signUpRequestDto.getDepartment());
@@ -67,4 +55,20 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return userRepository.save(user);
     }
 
+    private User saveOrUpdate(OAuthAttributes attributes) {
+        User user = userRepository.findByEmail(attributes.getEmail())
+            .orElse(attributes.toEntity());
+
+        return userRepository.save(user);
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+            .orElse(null);
+    }
+
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
+    }
 }
