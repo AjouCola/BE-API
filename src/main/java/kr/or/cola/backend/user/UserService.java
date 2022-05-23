@@ -1,10 +1,11 @@
 package kr.or.cola.backend.user;
 
-import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
+import kr.or.cola.backend.auth.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -41,9 +42,17 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-            .orElse(null);
+    public User signUp(Long userId, SignUpRequestDto signUpRequestDto) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+            new IllegalArgumentException("Invalid User ID: id=" + userId));
+
+        user.setName(signUpRequestDto.getName());
+        user.setDepartment(signUpRequestDto.getDepartment());
+        user.setAjouEmail(signUpRequestDto.getAjouEmail());
+        user.setGitEmail(signUpRequestDto.getGitEmail());
+        user.setVerified(true);
+        user.setRole(Role.USER);
+        return userRepository.save(user);
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
@@ -51,6 +60,11 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
             .orElse(attributes.toEntity());
 
         return userRepository.save(user);
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+            .orElse(null);
     }
 
     public User findUserById(Long userId) {
