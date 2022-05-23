@@ -1,6 +1,7 @@
 package kr.or.cola.backend.auth.dto;
 
 
+import kr.or.cola.backend.user.domain.Major;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SignUpRequestDto {
     private String name;
-    private String department;
+    private Major department;
     private String ajouEmail;
     private String gitEmail;
 }
