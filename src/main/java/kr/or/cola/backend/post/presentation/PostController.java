@@ -47,7 +47,7 @@ public class PostController {
 
     @GetMapping("")
     public ResponseEntity<Page<SimplePostResponseDto>> getPosts(
-        @PageableDefault(size = 12, sort = {"post_id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+        @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<SimplePostResponseDto> posts = postService.findAllPosts(pageable);
         return ResponseEntity.ok(posts);
     }

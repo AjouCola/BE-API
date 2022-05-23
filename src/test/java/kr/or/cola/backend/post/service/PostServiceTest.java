@@ -36,7 +36,7 @@ class PostServiceTest {
     private PostService postService;
 
     @Test
-    void findAllPosts() {
+    void findAllPostsTest() {
         // given
         int TOTAL_POST_COUNT = 20;
         int PAGE_SIZE = 6;
