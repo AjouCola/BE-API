@@ -2,6 +2,7 @@ package kr.or.cola.backend.user;
 
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.user.domain.Major;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
@@ -47,7 +48,7 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
             new IllegalArgumentException("Invalid User ID: id=" + userId));
 
         user.setName(signUpRequestDto.getName());
-        user.setDepartment(signUpRequestDto.getDepartment());
+        user.setDepartment(Major.valueOf(signUpRequestDto.getMajor()));
         user.setAjouEmail(signUpRequestDto.getAjouEmail());
         user.setGitEmail(signUpRequestDto.getGitEmail());
         user.setVerified(true);

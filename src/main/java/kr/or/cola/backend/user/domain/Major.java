@@ -26,7 +26,7 @@ public enum Major {
         CHEM("chem", "화학과"),
         BIOLOGY("biology", "생명과학과"),
         ABIZ("abiz", "경영학과"),
-        E_BIZ("ebiz", "e-비즈니스학과"),
+        EBIZ("ebiz", "e-비즈니스학과"),
         FE("fe", "금융공학과"),
         GB("gb", "글로벌경영학과"),
         KOR("kor", "국어국문학과"),
