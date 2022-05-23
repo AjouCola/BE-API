@@ -5,6 +5,7 @@ import kr.or.cola.backend.auth.dto.AuthMailRequestDto;
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.UserService;
+import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.auth.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;

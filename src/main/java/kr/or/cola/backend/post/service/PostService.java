@@ -13,6 +13,9 @@ import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,6 +58,12 @@ public class PostService {
     @Transactional(readOnly = true)
     public List<SimplePostResponseDto> findAllDesc() {
         return postRepository.findAllDesc().stream()
+            .map(SimplePostResponseDto::new)
+            .collect(Collectors.toList());
+    }
+
+    public List<SimplePostResponseDto> findAllPosts(PageRequest pageRequest) {
+        return postRepository.findAll(pageRequest).stream()
             .map(SimplePostResponseDto::new)
             .collect(Collectors.toList());
     }
