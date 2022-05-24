@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -41,6 +45,8 @@ public class User extends BaseTimeEntity {
     @Column(name="is_verified")
     private boolean isVerified;
 
+    private String folderOrder;
+
     @Builder
     public User(String email, Role role) {
         this.email = email;
@@ -55,5 +61,11 @@ public class User extends BaseTimeEntity {
         isVerified = true;
     }
 
+    public List<Long> getFolderOrder() {
+//        String[] orders = this.folderOrder.split(",");
+//        List<String> orders = new ArrayList<>(Arrays.asList( ));
+//        return orders.stream().map(Long::getLong).collect(Collectors.toList());
+        return Arrays.stream(this.folderOrder.split(",")).map(Long::getLong).collect(Collectors.toList());
+    }
 
 }

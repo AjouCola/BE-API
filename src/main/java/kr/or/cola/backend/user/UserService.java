@@ -1,7 +1,5 @@
 package kr.or.cola.backend.user;
 
-import kr.or.cola.backend.auth.AuthToken;
-import kr.or.cola.backend.auth.AuthTokenService;
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.domain.User;

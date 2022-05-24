@@ -9,13 +9,11 @@ public class FolderResponseDto {
     private Long folderId;
     private String name;
     private String color;
-    private int order;
 
     @Builder
     public FolderResponseDto(Folder folder) {
-        this.folderId = folder.getId();
+        this.folderId = folder.getFolderId();
         this.color = folder.getColor();
         this.name = folder.getName();
-        this.order = folder.getOrder();
     }
 }

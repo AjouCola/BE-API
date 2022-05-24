@@ -10,4 +10,6 @@ import java.util.List;
 public interface ItemRepository extends JpaRepository<Item, Long> {
     List<Item> findByDate(LocalDate date);
     Item findByDateAndFolderId(LocalDate date, Long folderId);
+    List<Item> findAllByDateAndFolderIdIn(LocalDate date, List<Long> folders);
+    void deleteAllByFolderId(Long folderId);
 }

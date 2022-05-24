@@ -1,6 +1,8 @@
 package kr.or.cola.backend.todo.item.domain;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -11,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Table(name = "todo_item_list")
+@NoArgsConstructor
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,19 +21,26 @@ public class Item {
     private Long id;
 
     @DateTimeFormat(pattern = "yyyy-MM-DD")
-    @Column(name = "date")
     private LocalDate date;
 
     private Long folderId;
 
-    private String content;
+    private String todos;
 
     private int progress;
 
-    public void update(LocalDate date, Long folderId, String content, int progress) {
+    @Builder
+    public Item(LocalDate date, Long folderId, String todos, int progress){
         this.date = date;
         this.folderId = folderId;
-        this.content = content;
+        this.todos = todos;
+        this.progress = progress;
+    }
+
+    public void update(LocalDate date, Long folderId, String todos, int progress) {
+        this.date = date;
+        this.folderId = folderId;
+        this.todos = todos;
         this.progress = progress;
     }
 }
