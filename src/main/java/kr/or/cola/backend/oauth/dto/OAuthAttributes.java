@@ -20,10 +20,26 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
-        return ofGoogle(userNameAttributeName, attributes);
+        if ("google".equals(registrationId)) {
+            return ofGoogle(userNameAttributeName, attributes);
+        }
+        if ("github".equals(registrationId)) {
+            return ofGithub(userNameAttributeName, attributes);
+        }
+        return null;
     }
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
+        return OAuthAttributes.builder()
+                .email((String) attributes.get("email"))
+                .attributes(attributes)
+                .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+    private static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes) {
+        if (attributes.get("email") == null) {
+            throw new RuntimeException("github email access exception");
+        }
         return OAuthAttributes.builder()
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
