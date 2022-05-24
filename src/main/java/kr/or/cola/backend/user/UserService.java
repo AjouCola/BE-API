@@ -2,9 +2,12 @@ package kr.or.cola.backend.user;
 
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
+import kr.or.cola.backend.auth.dto.SignUpRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
@@ -40,9 +44,20 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-            .orElse(null);
+    public User signUp(Long userId, SignUpRequestDto signUpRequestDto) {
+        User user = userRepository.findById(userId).orElseThrow(() ->
+            new IllegalArgumentException("Invalid User ID: id=" + userId));
+
+        user.signUp(Role.USER,
+                signUpRequestDto.getName(),
+                signUpRequestDto.getAjouEmail(),
+                signUpRequestDto.getGitEmail(),
+                signUpRequestDto.getDepartment(),
+                null,
+                true
+            );
+
+        return userRepository.save(user);
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
@@ -50,5 +65,15 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
             .orElse(attributes.toEntity());
 
         return userRepository.save(user);
+    }
+
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+            .orElse(null);
+    }
+
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
     }
 }

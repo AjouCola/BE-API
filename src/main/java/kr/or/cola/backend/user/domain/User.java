@@ -4,8 +4,12 @@ import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,7 +41,8 @@ public class User extends BaseTimeEntity {
     @Column(name="git_email")
     private String gitEmail;
 
-    private String department;
+    @Enumerated(EnumType.STRING)
+    private Department department;
 
     @Column(name="profile_path", length = 4096)
     private String profilePath;
@@ -53,19 +58,28 @@ public class User extends BaseTimeEntity {
         this.role = role;
     }
 
-    public String getRoleKey() {
-        return this.role.getKey();
-    }
+    public void signUp(@NotNull Role role,
+                       @NotNull String name,
+                       @NotNull String ajouEmail,
+                       @Nullable String gitEmail,
+                       @NotNull Department department,
+                       @Nullable String profilePath,
+                       @NotNull Boolean isVerified) {
 
-    public void emailVerifiedSuccess() {
-        isVerified = true;
+        this.role = role;
+        this.name = name;
+        this.ajouEmail = ajouEmail;
+        this.department = department;
+        this.isVerified = isVerified;
+        this.gitEmail = gitEmail;
+        this.profilePath = profilePath;
     }
 
     public List<Long> getFolderOrder() {
-//        String[] orders = this.folderOrder.split(",");
-//        List<String> orders = new ArrayList<>(Arrays.asList( ));
-//        return orders.stream().map(Long::getLong).collect(Collectors.toList());
         return Arrays.stream(this.folderOrder.split(",")).map(Long::getLong).collect(Collectors.toList());
     }
 
+    public String getRoleKey() {
+        return this.role.getKey();
+    }
 }

@@ -5,8 +5,4 @@ import lombok.Getter;
 @Getter
 public class AuthConfirmRequestDto {
     private String token;
-
-    public AuthConfirmRequestDto(String token) {
-        this.token = token;
-    }
 }

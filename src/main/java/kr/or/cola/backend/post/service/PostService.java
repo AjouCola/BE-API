@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import kr.or.cola.backend.post.domain.Post;
 import kr.or.cola.backend.post.domain.PostRepository;
+import kr.or.cola.backend.post.domain.PostType;
 import kr.or.cola.backend.post.presentation.dto.PostResponseDto;
 import kr.or.cola.backend.post.presentation.dto.SimplePostResponseDto;
 import kr.or.cola.backend.post.presentation.dto.PostCreateRequestDto;
@@ -13,6 +14,8 @@ import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,12 +32,13 @@ public class PostService {
         return new PostResponseDto(initializePostInfo(postId));
     }
 
-    public Long createPost(Long userId, PostCreateRequestDto requestDto) {
+    public Long createPost(Long userId, PostType postType, PostCreateRequestDto requestDto) {
         User user = findUserById(userId);
         Post post = Post.builder()
             .title(requestDto.getTitle())
             .content(requestDto.getContent())
             .user(user)
+            .postType(postType)
             .build();
 
         return postRepository.save(post).getId();
@@ -57,6 +61,12 @@ public class PostService {
         return postRepository.findAllDesc().stream()
             .map(SimplePostResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<SimplePostResponseDto> findAllPostByPostType(PostType postType, Pageable pageable) {
+        return postRepository.findByPostType(postType, pageable)
+            .map(SimplePostResponseDto::new);
     }
 
     @Transactional(readOnly = true)
