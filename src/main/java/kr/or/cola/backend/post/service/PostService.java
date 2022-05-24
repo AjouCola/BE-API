@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import kr.or.cola.backend.post.domain.Post;
 import kr.or.cola.backend.post.domain.PostRepository;
+import kr.or.cola.backend.post.domain.PostType;
 import kr.or.cola.backend.post.presentation.dto.PostResponseDto;
 import kr.or.cola.backend.post.presentation.dto.SimplePostResponseDto;
 import kr.or.cola.backend.post.presentation.dto.PostCreateRequestDto;
@@ -31,12 +32,13 @@ public class PostService {
         return new PostResponseDto(initializePostInfo(postId));
     }
 
-    public Long createPost(Long userId, PostCreateRequestDto requestDto) {
+    public Long createPost(Long userId, PostType postType, PostCreateRequestDto requestDto) {
         User user = findUserById(userId);
         Post post = Post.builder()
             .title(requestDto.getTitle())
             .content(requestDto.getContent())
             .user(user)
+            .postType(postType)
             .build();
 
         return postRepository.save(post).getId();
@@ -62,8 +64,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<SimplePostResponseDto> findAllPosts(Pageable pageable) {
-        return postRepository.findAll(pageable)
+    public Page<SimplePostResponseDto> findAllPostByPostType(PostType postType, Pageable pageable) {
+        return postRepository.findByPostType(postType, pageable)
             .map(SimplePostResponseDto::new);
     }
 

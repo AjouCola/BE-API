@@ -8,6 +8,7 @@
 //
 //import kr.or.cola.backend.post.domain.Post;
 //import kr.or.cola.backend.post.domain.PostRepository;
+//import kr.or.cola.backend.post.domain.PostType;
 //import kr.or.cola.backend.post.service.PostService;
 //import kr.or.cola.backend.user.domain.Role;
 //import kr.or.cola.backend.user.domain.User;
@@ -66,15 +67,26 @@
 //                .user(user)
 //                .title("title" + i)
 //                .content("content" + i)
+//                .postType(PostType.common)
 //                .build()
 //            );
 //        }
+////        for(int i=0; i<TOTAL_POST_COUNT; i++) {
+////            postRepository.save(Post.builder()
+////                .user(user)
+////                .title("title" + i)
+////                .content("content" + i)
+////                .postType(PostType.qna)
+////                .build()
+////            );
+////        }
 //        String url = "http://localhost:" + port + "/api/v1/posts";
 //
 //        // when
 //        MultiValueMap<String, String> info = new LinkedMultiValueMap<>();
 //        info.add("size", "6");
 //        info.add("page", "0");
+//        info.add("category", "common");
 //
 //        mvc.perform(get(url)
 //                .params(info))

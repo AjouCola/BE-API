@@ -2,9 +2,11 @@ package kr.or.cola.backend.post.presentation;
 
 
 import java.util.List;
+import javax.validation.Valid;
 import kr.or.cola.backend.common.ResponseWithPagination;
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.post.domain.PostType;
 import kr.or.cola.backend.post.presentation.dto.PostResponseDto;
 import kr.or.cola.backend.post.presentation.dto.PostCreateRequestDto;
 import kr.or.cola.backend.post.presentation.dto.PostUpdateRequestDto;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1/posts")
@@ -33,9 +36,12 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping("")
-    public ResponseEntity<Long> createPost(@LoginUser SessionUser user, @RequestBody PostCreateRequestDto requestDto) {
-        Long postId = postService.createPost(user.getUserId(), requestDto);
+    @PostMapping("/{postType}")
+    public ResponseEntity<Long> createPost(@LoginUser SessionUser user,
+            @PathVariable PostType postType,
+            @Valid @RequestBody PostCreateRequestDto requestDto
+        ) {
+        Long postId = postService.createPost(user.getUserId(), postType, requestDto);
         return ResponseEntity.ok(postId);
     }
 
@@ -47,8 +53,12 @@ public class PostController {
 
     @GetMapping("")
     public ResponseEntity<Page<SimplePostResponseDto>> getPosts(
-        @PageableDefault(size = 12, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<SimplePostResponseDto> posts = postService.findAllPosts(pageable);
+            @RequestParam(value = "category") PostType postType,
+            @PageableDefault(
+                size = 12,
+                sort = "id",
+                direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<SimplePostResponseDto> posts = postService.findAllPostByPostType(postType, pageable);
         return ResponseEntity.ok(posts);
     }
 

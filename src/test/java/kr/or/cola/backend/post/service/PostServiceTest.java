@@ -5,6 +5,7 @@
 //import java.util.stream.Collectors;
 //import kr.or.cola.backend.post.domain.Post;
 //import kr.or.cola.backend.post.domain.PostRepository;
+//import kr.or.cola.backend.post.domain.PostType;
 //import kr.or.cola.backend.post.presentation.dto.SimplePostResponseDto;
 //import kr.or.cola.backend.user.UserService;
 //import kr.or.cola.backend.user.domain.Role;
@@ -50,26 +51,27 @@
 //                .user(user)
 //                .title("title" + i)
 //                .content("content" + i)
+//                .postType(PostType.common)
 //                .build()
 //            );
 //        }
 //
 //        // when
 //        Pageable pageable = PageRequest.of(0, PAGE_SIZE);
-//        Page<SimplePostResponseDto> result = postService.findAllPosts(pageable);
+//        Page<SimplePostResponseDto> result = postService.findAllPostByPostType(PostType.common, pageable);
 //
 //        // then
-////        System.out.println("PAGE SIZE: " + result.getSize());
-////        System.out.println("TOTAL PAGE: " + result.getTotalPages());
-////        System.out.println("TOTAL COUNT: " + result.getTotalElements());
-////        System.out.println("NEXT: " + result.nextPageable());
-////        System.out.println("CONTENTS TITLE");
-////        System.out.println(result.getContent().stream()
-////            .map(SimplePostResponseDto::getPostId)
-////            .collect(Collectors.toList()));
-////        System.out.println(result);
-//        assertThat(result.getTotalElements()).isEqualTo(TOTAL_POST_COUNT);
-//        assertThat(result.getTotalPages()).isEqualTo(TOTAL_POST_COUNT / PAGE_SIZE + 1);
-//        assertThat(result.getSize()).isEqualTo(PAGE_SIZE);
+//        System.out.println("PAGE SIZE: " + result.getSize());
+//        System.out.println("TOTAL PAGE: " + result.getTotalPages());
+//        System.out.println("TOTAL COUNT: " + result.getTotalElements());
+//        System.out.println("NEXT: " + result.nextPageable());
+//        System.out.println("CONTENTS TITLE");
+//        System.out.println(result.getContent().stream()
+//            .map(SimplePostResponseDto::toString)
+//            .collect(Collectors.toList()));
+//        System.out.println(result);
+////        assertThat(result.getTotalElements()).isEqualTo(TOTAL_POST_COUNT);
+////        assertThat(result.getTotalPages()).isEqualTo(TOTAL_POST_COUNT / PAGE_SIZE + 1);
+////        assertThat(result.getSize()).isEqualTo(PAGE_SIZE);
 //    }
 //}
