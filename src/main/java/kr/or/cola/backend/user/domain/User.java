@@ -5,10 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 @Table(name="users")
 @Entity
@@ -47,6 +50,24 @@ public class User extends BaseTimeEntity {
     public User(String email, Role role) {
         this.email = email;
         this.role = role;
+    }
+
+    public void signUp(@NotNull Role role,
+                       @NotNull String name,
+                       @NotNull String ajouEmail,
+                       @Nullable String gitEmail,
+                       @NotNull Department department,
+                       @Nullable String profilePath,
+                       @NotNull Boolean isVerified) {
+
+        this.role = role;
+        this.name = name;
+        this.ajouEmail = ajouEmail;
+        this.department = department;
+        this.isVerified = isVerified;
+
+        this.gitEmail = gitEmail;
+        this.profilePath = profilePath;
     }
 
     public String getRoleKey() {
