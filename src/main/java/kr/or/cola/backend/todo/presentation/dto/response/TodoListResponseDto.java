@@ -1,8 +1,12 @@
-package kr.or.cola.backend.todo.presentation.dto;
+package kr.or.cola.backend.todo.presentation.dto.response;
 
+import kr.or.cola.backend.todo.folder.dto.SimpleFolderResponseDto;
+import kr.or.cola.backend.todo.item.dto.SimpleItemResponseDto;
+import lombok.Getter;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -51,20 +55,17 @@ import java.util.List;
  * }
  */
 
-public class TodoResponseDto {
-    private String date;
-    private List<TodoFolderDto> todoFolderDtoList;
-    private List<TodoItemDto> todoItemDtoList;
+@Getter
+public class TodoListResponseDto {
+    @DateTimeFormat(pattern = "yyyy-MM-DD")
+    private LocalDate date;
 
-    public Date toDate() {
+    private List<SimpleFolderResponseDto> folderList;
+    private List<SimpleItemResponseDto> itemList;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
-        LocalDateTime date = LocalDateTime.parse(this.date, formatter);
-
-        this.date.split("-");
-        return new Date(this.date);
+    public TodoListResponseDto(LocalDate date, List<SimpleFolderResponseDto> folderList, List<SimpleItemResponseDto> itemList) {
+        this.date = date;
+        this.folderList = folderList;
+        this.itemList = itemList;
     }
-
-
 }
