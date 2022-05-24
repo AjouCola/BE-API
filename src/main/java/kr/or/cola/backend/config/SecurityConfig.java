@@ -1,6 +1,5 @@
 package kr.or.cola.backend.config;
 
-import java.net.MalformedURLException;
 import kr.or.cola.backend.oauth.OAuth2AuthenticationSuccessHandler;
 import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.Role;
