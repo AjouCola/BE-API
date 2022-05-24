@@ -13,6 +13,8 @@ import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,6 +59,12 @@ public class PostService {
         return postRepository.findAllDesc().stream()
             .map(SimplePostResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<SimplePostResponseDto> findAllPosts(Pageable pageable) {
+        return postRepository.findAll(pageable)
+            .map(SimplePostResponseDto::new);
     }
 
     @Transactional(readOnly = true)
