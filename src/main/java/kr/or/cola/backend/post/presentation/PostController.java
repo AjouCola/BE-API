@@ -51,7 +51,7 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<Page<SimplePostResponseDto>> getPosts(
             @RequestParam(value = "category") PostType postType,
             @PageableDefault(
