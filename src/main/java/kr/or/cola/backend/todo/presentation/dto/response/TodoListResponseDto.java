@@ -1,12 +1,11 @@
 package kr.or.cola.backend.todo.presentation.dto.response;
 
-import kr.or.cola.backend.todo.folder.dto.SimpleFolderResponseDto;
+import kr.or.cola.backend.todo.folder.dto.FolderResponseDto;
 import kr.or.cola.backend.todo.item.dto.SimpleItemResponseDto;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -60,10 +59,10 @@ public class TodoListResponseDto {
     @DateTimeFormat(pattern = "yyyy-MM-DD")
     private LocalDate date;
 
-    private List<SimpleFolderResponseDto> folderList;
+    private List<FolderResponseDto> folderList;
     private List<SimpleItemResponseDto> itemList;
 
-    public TodoListResponseDto(LocalDate date, List<SimpleFolderResponseDto> folderList, List<SimpleItemResponseDto> itemList) {
+    public TodoListResponseDto(LocalDate date, List<FolderResponseDto> folderList, List<SimpleItemResponseDto> itemList) {
         this.date = date;
         this.folderList = folderList;
         this.itemList = itemList;

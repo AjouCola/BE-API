@@ -5,14 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class SimpleFolderResponseDto {
+public class FolderResponseDto {
     private Long folderId;
     private String name;
     private String color;
     private int order;
 
     @Builder
-    public SimpleFolderResponseDto(Folder folder) {
+    public FolderResponseDto(Folder folder) {
         this.folderId = folder.getId();
         this.color = folder.getColor();
         this.name = folder.getName();

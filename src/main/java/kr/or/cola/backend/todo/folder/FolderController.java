@@ -2,6 +2,7 @@ package kr.or.cola.backend.todo.folder;
 
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.todo.folder.dto.FolderResponseDto;
 import kr.or.cola.backend.todo.folder.dto.FolderUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,13 +16,25 @@ public class FolderController {
 
     @PostMapping("")
     public ResponseEntity<Long> createFolder(@LoginUser SessionUser sessionUser, @RequestBody FolderUpdateRequestDto requestDto) {
-        Long folderId = folderService.createFolder(sessionUser.getUserId(), requestDto);
-        return ResponseEntity.ok(folderId);
+        Long FolderId = folderService.createFolder(sessionUser.getUserId(), requestDto);
+        return ResponseEntity.ok(FolderId);
     }
 
     @PatchMapping("/{folderId}")
-    public ResponseEntity<Long> updateFolder(@PathVariable Long id, @RequestBody FolderUpdateRequestDto requestDto) {
-        Long folderId = folderService.updateFolder(id, requestDto);
-        return ResponseEntity.ok(folderId);
+    public ResponseEntity<Void> updateFolder(@PathVariable Long folderId, @RequestBody FolderUpdateRequestDto requestDto) {
+        folderService.updateFolder(folderId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{folderId}")
+    public ResponseEntity<FolderResponseDto> getFolder(@PathVariable Long folderId) {
+        FolderResponseDto folderResponse = folderService.readFolder(folderId);
+        return ResponseEntity.ok(folderResponse);
+    }
+
+    @DeleteMapping("/{folderId}")
+    public ResponseEntity<Void> deleteFolder(@PathVariable Long folderId) {
+        folderService.deleteFolder(folderId);
+        return ResponseEntity.ok().build();
     }
 }

@@ -4,7 +4,7 @@ import kr.or.cola.backend.todo.folder.domain.Folder;
 import kr.or.cola.backend.todo.folder.domain.FolderRepository;
 import kr.or.cola.backend.todo.item.domain.Item;
 import kr.or.cola.backend.todo.item.domain.ItemRepository;
-import kr.or.cola.backend.todo.folder.dto.SimpleFolderResponseDto;
+import kr.or.cola.backend.todo.folder.dto.FolderResponseDto;
 import kr.or.cola.backend.todo.item.dto.SimpleItemResponseDto;
 import kr.or.cola.backend.todo.presentation.dto.response.TodoListResponseDto;
 //import kr.or.cola.backend.todo.presentation.temp.TodoProgressDto;
@@ -37,9 +37,9 @@ public class TodoService {
 
     public TodoListResponseDto getTodoListByDate(Long userId, LocalDate date) {
         List<Folder> folderList = folderRepository.findAllByUserId(userId);
-        List<SimpleFolderResponseDto> responseFolderDto = new ArrayList<>();
+        List<FolderResponseDto> responseFolderDto = new ArrayList<>();
         folderList.forEach(i -> {
-            responseFolderDto.add(new SimpleFolderResponseDto(i));
+            responseFolderDto.add(new FolderResponseDto(i));
         });
         List<Item> itemList = itemRepository.findByDate(date);
         List<SimpleItemResponseDto> responseItemDto = new ArrayList<>();

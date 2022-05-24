@@ -3,13 +3,12 @@ package kr.or.cola.backend.todo.folder;
 import kr.or.cola.backend.todo.folder.domain.Folder;
 import kr.or.cola.backend.todo.folder.domain.FolderRepository;
 import kr.or.cola.backend.todo.folder.dto.FolderUpdateRequestDto;
-import kr.or.cola.backend.todo.folder.dto.SimpleFolderResponseDto;
+import kr.or.cola.backend.todo.folder.dto.FolderResponseDto;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,14 +32,13 @@ public class FolderService {
     }
 
     // Read
-    public List<SimpleFolderResponseDto> readFolders(Long userId) {
+    public List<FolderResponseDto> readFolders(Long userId) {
         return folderRepository.findAllByUserId(userId).stream()
-                .map(SimpleFolderResponseDto::new).collect(Collectors.toList());
+                .map(FolderResponseDto::new).collect(Collectors.toList());
     }
 
-    public SimpleFolderResponseDto readFolder(Long folderId) throws Exception {
-
-        return new SimpleFolderResponseDto(folderRepository.findById(folderId).orElseThrow());
+    public FolderResponseDto readFolder(Long folderId) {
+        return new FolderResponseDto(folderRepository.findById(folderId).orElse(null));
     }
 
     // Update
