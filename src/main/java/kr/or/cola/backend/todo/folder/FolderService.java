@@ -26,9 +26,8 @@ public class FolderService {
                 .user(user)
                 .name(requestDto.getName())
                 .color(requestDto.getColor())
-                .order(requestDto.getOrder())
                 .build();
-        return folderRepository.save(folder).getId();
+        return folderRepository.save(folder).getFolderId();
     }
 
     // Read
@@ -44,13 +43,13 @@ public class FolderService {
     // Update
     public Long updateFolder(Long folderId, FolderUpdateRequestDto requestDto) {
         Folder folder = folderRepository.getById(folderId);
-        folder.update(requestDto.getName(), requestDto.getColor(), requestDto.getOrder());
-        return folderRepository.save(folder).getId();
+        folder.update(requestDto.getName(), requestDto.getColor());
+        return folderRepository.save(folder).getFolderId();
     }
 
     // Delete
     public void deleteAll(Long userId) {
-        List<Long> ids = folderRepository.findAllByUserId(userId).stream().map(Folder::getId).collect(Collectors.toList());
+        List<Long> ids = folderRepository.findAllByUserId(userId).stream().map(Folder::getFolderId).collect(Collectors.toList());
         deleteAllFolder(ids);
     }
     public void deleteAllFolder(List<Long> folderIds) {

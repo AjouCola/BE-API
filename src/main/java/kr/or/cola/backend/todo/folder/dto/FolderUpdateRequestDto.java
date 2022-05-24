@@ -7,5 +7,4 @@ public class FolderUpdateRequestDto {
 
     private String name;
     private String color;
-    private int order;
 }
