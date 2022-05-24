@@ -37,6 +37,9 @@ public class OAuthAttributes {
                 .build();
     }
     private static OAuthAttributes ofGithub(String userNameAttributeName, Map<String, Object> attributes) {
+        if (attributes.get("email") == null) {
+            throw new RuntimeException("github email access exception");
+        }
         return OAuthAttributes.builder()
                 .email((String) attributes.get("email"))
                 .attributes(attributes)
