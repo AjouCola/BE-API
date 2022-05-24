@@ -48,13 +48,15 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         User user = userRepository.findById(userId).orElseThrow(() ->
             new IllegalArgumentException("Invalid User ID: id=" + userId));
 
-        user.setName(signUpRequestDto.getName());
-        user.setDepartment(signUpRequestDto.getDepartment());
-        user.setAjouEmail(signUpRequestDto.getAjouEmail());
-        user.setGitEmail(signUpRequestDto.getGitEmail());
-        user.setVerified(true);
-        user.setRole(Role.USER);
-        log.info(signUpRequestDto.getDepartment().getKey());
+        user.signUp(Role.USER,
+                signUpRequestDto.getName(),
+                signUpRequestDto.getAjouEmail(),
+                signUpRequestDto.getGitEmail(),
+                signUpRequestDto.getDepartment(),
+                null,
+                true
+            );
+
         return userRepository.save(user);
     }
 
