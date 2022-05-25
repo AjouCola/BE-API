@@ -2,6 +2,10 @@ package kr.or.cola.backend.user;
 
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.todo.folder.FolderService;
+import kr.or.cola.backend.todo.folder.domain.Folder;
+import kr.or.cola.backend.todo.folder.domain.FolderRepository;
+import kr.or.cola.backend.todo.folder.dto.FolderUpdateRequestDto;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
@@ -27,6 +31,8 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
     private final UserRepository userRepository;
     private final HttpSession httpSession;
 
+    private final FolderService folderService;
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
@@ -47,12 +53,14 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
     public User signUp(Long userId, SignUpRequestDto signUpRequestDto) {
         User user = userRepository.findById(userId).orElseThrow(() ->
             new IllegalArgumentException("Invalid User ID: id=" + userId));
+        Folder defaultFolder = Folder.builder().user(user).name("일반").color("#ffffff").build();
 
         user.signUp(Role.USER,
                 signUpRequestDto.getName(),
                 signUpRequestDto.getAjouEmail(),
                 signUpRequestDto.getGitEmail(),
                 signUpRequestDto.getDepartment(),
+                folderService.createFolder(userId, new FolderUpdateRequestDto("일반", "#ffffff"))+ "",
                 null,
                 true
             );

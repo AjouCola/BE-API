@@ -63,6 +63,7 @@ public class User extends BaseTimeEntity {
                        @NotNull String ajouEmail,
                        @Nullable String gitEmail,
                        @NotNull Department department,
+                       @NotNull String folderOrder,
                        @Nullable String profilePath,
                        @NotNull Boolean isVerified) {
 
@@ -73,6 +74,7 @@ public class User extends BaseTimeEntity {
         this.isVerified = isVerified;
         this.gitEmail = gitEmail;
         this.profilePath = profilePath;
+        this.folderOrder = folderOrder;
     }
 
     public List<Long> getFolderOrder() {
