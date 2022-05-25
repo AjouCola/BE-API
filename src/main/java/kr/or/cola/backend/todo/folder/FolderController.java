@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/folder")
 @RequiredArgsConstructor
@@ -24,6 +26,13 @@ public class FolderController {
     public ResponseEntity<Void> updateFolder(@PathVariable Long folderId, @RequestBody FolderUpdateRequestDto requestDto) {
         folderService.updateFolder(folderId, requestDto);
         return ResponseEntity.ok().build();
+    }
+
+    // Read Folder
+    @GetMapping("")
+    public ResponseEntity<List<FolderResponseDto>> getFolders(@LoginUser SessionUser sessionUser) {
+        List<FolderResponseDto> folderResponse = folderService.readFolders(sessionUser.getUserId());
+        return ResponseEntity.ok(folderResponse);
     }
 
     @GetMapping("/{folderId}")
