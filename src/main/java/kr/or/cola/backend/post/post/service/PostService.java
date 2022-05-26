@@ -57,13 +57,6 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<SimplePostResponseDto> findAllDesc() {
-        return postRepository.findAllDesc().stream()
-            .map(SimplePostResponseDto::new)
-            .collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
     public Page<SimplePostResponseDto> findAllPostByPostType(PostType postType, Pageable pageable) {
         return postRepository.findByPostType(postType, pageable)
             .map(SimplePostResponseDto::new);
