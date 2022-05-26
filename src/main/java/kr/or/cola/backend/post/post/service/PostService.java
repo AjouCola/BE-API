@@ -1,15 +1,15 @@
-package kr.or.cola.backend.post.service;
+package kr.or.cola.backend.post.post.service;
 
 
 import java.util.List;
 import java.util.stream.Collectors;
-import kr.or.cola.backend.post.domain.Post;
-import kr.or.cola.backend.post.domain.PostRepository;
-import kr.or.cola.backend.post.domain.PostType;
-import kr.or.cola.backend.post.presentation.dto.PostResponseDto;
-import kr.or.cola.backend.post.presentation.dto.SimplePostResponseDto;
-import kr.or.cola.backend.post.presentation.dto.PostCreateRequestDto;
-import kr.or.cola.backend.post.presentation.dto.PostUpdateRequestDto;
+import kr.or.cola.backend.post.post.domain.Post;
+import kr.or.cola.backend.post.post.domain.PostRepository;
+import kr.or.cola.backend.post.post.domain.PostType;
+import kr.or.cola.backend.post.post.presentation.dto.PostResponseDto;
+import kr.or.cola.backend.post.post.presentation.dto.SimplePostResponseDto;
+import kr.or.cola.backend.post.post.presentation.dto.PostCreateRequestDto;
+import kr.or.cola.backend.post.post.presentation.dto.PostUpdateRequestDto;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;

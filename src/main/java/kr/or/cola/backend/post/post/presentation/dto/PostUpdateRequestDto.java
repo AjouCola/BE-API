@@ -1,4 +1,4 @@
-package kr.or.cola.backend.post.presentation.dto;
+package kr.or.cola.backend.post.post.presentation.dto;
 
 import lombok.Builder;
 import lombok.Getter;

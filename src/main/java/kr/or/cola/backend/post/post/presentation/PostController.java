@@ -1,22 +1,19 @@
-package kr.or.cola.backend.post.presentation;
+package kr.or.cola.backend.post.post.presentation;
 
 
-import java.util.List;
 import javax.validation.Valid;
-import kr.or.cola.backend.common.ResponseWithPagination;
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
-import kr.or.cola.backend.post.domain.PostType;
-import kr.or.cola.backend.post.presentation.dto.PostResponseDto;
-import kr.or.cola.backend.post.presentation.dto.PostCreateRequestDto;
-import kr.or.cola.backend.post.presentation.dto.PostUpdateRequestDto;
-import kr.or.cola.backend.post.presentation.dto.SimplePostResponseDto;
-import kr.or.cola.backend.post.service.PostService;
+import kr.or.cola.backend.post.post.domain.PostType;
+import kr.or.cola.backend.post.post.presentation.dto.PostResponseDto;
+import kr.or.cola.backend.post.post.presentation.dto.PostCreateRequestDto;
+import kr.or.cola.backend.post.post.presentation.dto.PostUpdateRequestDto;
+import kr.or.cola.backend.post.post.presentation.dto.SimplePostResponseDto;
+import kr.or.cola.backend.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

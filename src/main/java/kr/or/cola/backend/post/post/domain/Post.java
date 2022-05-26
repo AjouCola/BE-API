@@ -1,4 +1,4 @@
-package kr.or.cola.backend.post.domain;
+package kr.or.cola.backend.post.post.domain;
 
 import java.util.ArrayList;
 import java.util.List;

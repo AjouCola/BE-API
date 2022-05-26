@@ -1,7 +1,7 @@
-package kr.or.cola.backend.post.presentation.dto;
+package kr.or.cola.backend.post.post.presentation.dto;
 
 import java.time.LocalDateTime;
-import kr.or.cola.backend.post.domain.Post;
+import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.Getter;
 import lombok.ToString;
