@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 public class ItemDto {
-    @DateTimeFormat(pattern = "yyyy-MM-DD")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     private Long folderId;

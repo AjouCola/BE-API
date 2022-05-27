@@ -20,7 +20,7 @@ public class Item {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @DateTimeFormat(pattern = "yyyy-MM-DD")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 
     private Long folderId;
