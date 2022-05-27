@@ -1,7 +1,6 @@
-package kr.or.cola.backend.like.domain;
+package kr.or.cola.backend.favor.post.domain;
 
 import kr.or.cola.backend.common.BaseTimeEntity;
-import kr.or.cola.backend.like.domain.pk.LikeCommentPK;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -10,13 +9,13 @@ import javax.persistence.IdClass;
 
 @Data
 @Entity
-@IdClass(LikeCommentPK.class)
-public class CommentLike extends BaseTimeEntity {
+@IdClass(PostFavorPK.class)
+public class PostFavor extends BaseTimeEntity {
 
     @Id
     private Long userId;
 
     @Id
-    private Long commentId;
+    private Long postId;
 
 }

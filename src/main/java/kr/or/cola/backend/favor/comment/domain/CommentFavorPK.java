@@ -1,4 +1,4 @@
-package kr.or.cola.backend.like.domain.pk;
+package kr.or.cola.backend.favor.comment.domain;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,12 +6,12 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class LikeCommentPK implements Serializable {
+public class CommentFavorPK implements Serializable {
     private Long userId;
     private Long commentId;
 
     @Builder
-    public LikeCommentPK(Long userId, Long commentId) {
+    public CommentFavorPK(Long userId, Long commentId) {
         this.userId = userId;
         this.commentId = commentId;
     }
