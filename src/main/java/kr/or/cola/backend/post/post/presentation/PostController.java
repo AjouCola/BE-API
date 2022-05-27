@@ -6,8 +6,7 @@ import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.post.post.domain.PostType;
 import kr.or.cola.backend.post.post.presentation.dto.PostResponseDto;
-import kr.or.cola.backend.post.post.presentation.dto.PostCreateRequestDto;
-import kr.or.cola.backend.post.post.presentation.dto.PostUpdateRequestDto;
+import kr.or.cola.backend.post.post.presentation.dto.PostCreateOrUpdateRequestDto;
 import kr.or.cola.backend.post.post.presentation.dto.SimplePostResponseDto;
 import kr.or.cola.backend.post.post.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -34,16 +33,18 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/{postType}")
-    public ResponseEntity<Long> createPost(@LoginUser SessionUser user,
+    public ResponseEntity<Long> createPost(
+            @LoginUser SessionUser user,
             @PathVariable PostType postType,
-            @Valid @RequestBody PostCreateRequestDto requestDto
-        ) {
+            @Valid @RequestBody PostCreateOrUpdateRequestDto requestDto) {
         Long postId = postService.createPost(user.getUserId(), postType, requestDto);
         return ResponseEntity.ok(postId);
     }
 
     @PatchMapping("/{postId}")
-    public ResponseEntity<Void> updatePost(@PathVariable Long postId, @RequestBody PostUpdateRequestDto requestDto) {
+    public ResponseEntity<Void> updatePost(
+            @PathVariable Long postId,
+            @RequestBody PostCreateOrUpdateRequestDto requestDto) {
         postService.updatePost(postId, requestDto);
         return ResponseEntity.ok().build();
     }

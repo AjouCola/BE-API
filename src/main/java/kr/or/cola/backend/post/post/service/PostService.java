@@ -1,15 +1,12 @@
 package kr.or.cola.backend.post.post.service;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
 import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.post.post.domain.PostRepository;
 import kr.or.cola.backend.post.post.domain.PostType;
+import kr.or.cola.backend.post.post.presentation.dto.PostCreateOrUpdateRequestDto;
 import kr.or.cola.backend.post.post.presentation.dto.PostResponseDto;
 import kr.or.cola.backend.post.post.presentation.dto.SimplePostResponseDto;
-import kr.or.cola.backend.post.post.presentation.dto.PostCreateRequestDto;
-import kr.or.cola.backend.post.post.presentation.dto.PostUpdateRequestDto;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +29,7 @@ public class PostService {
         return new PostResponseDto(initializePostInfo(postId));
     }
 
-    public Long createPost(Long userId, PostType postType, PostCreateRequestDto requestDto) {
+    public Long createPost(Long userId, PostType postType, PostCreateOrUpdateRequestDto requestDto) {
         User user = findUserById(userId);
         Post post = Post.builder()
             .title(requestDto.getTitle())
@@ -41,14 +38,18 @@ public class PostService {
             .postType(postType)
             .build();
 
+        // TODO 태그 정보 생성
+
         return postRepository.save(post).getId();
     }
 
-    public void updatePost(Long id, PostUpdateRequestDto requestDto) {
+    public void updatePost(Long id, PostCreateOrUpdateRequestDto requestDto) {
         Post post = postRepository.findById(id).orElseThrow(() ->
             new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
-        post.update(requestDto.getTitle(), requestDto.getContent());
+        // TODO 태그 정보 수정
+
+        post.updateContents(requestDto.getTitle(), requestDto.getContent());
     }
 
     public void deletePost(Long postId) {
