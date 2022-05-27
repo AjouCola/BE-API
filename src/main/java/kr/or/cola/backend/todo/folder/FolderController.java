@@ -5,11 +5,13 @@ import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.todo.folder.dto.FolderResponseDto;
 import kr.or.cola.backend.todo.folder.dto.FolderUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/folder")
 @RequiredArgsConstructor
@@ -18,6 +20,9 @@ public class FolderController {
 
     @PostMapping("")
     public ResponseEntity<Long> createFolder(@LoginUser SessionUser sessionUser, @RequestBody FolderUpdateRequestDto requestDto) {
+        log.info("session User : "+ sessionUser.getUserId().toString());
+        log.info("folderUpdateResponse : "+ requestDto.getName()+", "+ requestDto.getColor());
+
         Long FolderId = folderService.createFolder(sessionUser.getUserId(), requestDto);
         return ResponseEntity.ok(FolderId);
     }
