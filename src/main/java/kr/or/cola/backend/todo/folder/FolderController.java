@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/folder")
 @RequiredArgsConstructor
 public class FolderController {
-    private FolderService folderService;
+    private final FolderService folderService;
 
     @PostMapping("")
     public ResponseEntity<Long> createFolder(@LoginUser SessionUser sessionUser, @RequestBody FolderUpdateRequestDto requestDto) {
