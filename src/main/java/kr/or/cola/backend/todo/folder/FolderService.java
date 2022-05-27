@@ -36,9 +36,7 @@ public class FolderService {
                 .map(FolderResponseDto::new).collect(Collectors.toList());
     }
 
-    public FolderResponseDto readFolder(Long folderId) {
-        return new FolderResponseDto(folderRepository.findById(folderId).orElse(null));
-    }
+
 
     // Update
     public Long updateFolder(Long folderId, FolderUpdateRequestDto requestDto) {

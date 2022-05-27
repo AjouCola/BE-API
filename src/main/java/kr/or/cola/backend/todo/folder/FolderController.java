@@ -40,12 +40,6 @@ public class FolderController {
         return ResponseEntity.ok(folderResponse);
     }
 
-    @GetMapping("/{folderId}")
-    public ResponseEntity<FolderResponseDto> getFolder(@PathVariable Long folderId) {
-        FolderResponseDto folderResponse = folderService.readFolder(folderId);
-        return ResponseEntity.ok(folderResponse);
-    }
-
     @DeleteMapping("/{folderId}")
     public ResponseEntity<Void> deleteFolder(@PathVariable Long folderId) {
         folderService.deleteFolder(folderId);
