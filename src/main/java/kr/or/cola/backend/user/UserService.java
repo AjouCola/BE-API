@@ -1,5 +1,6 @@
 package kr.or.cola.backend.user;
 
+import kr.or.cola.backend.aws.service.AwsS3Service;
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.todo.folder.FolderService;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Transactional
@@ -40,6 +42,8 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
     private final FolderRepository folderRepository;
 
     private final FolderService folderService;
+
+    private final AwsS3Service awsS3Service;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -80,10 +84,15 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new UserResponseDto(userRepository.save(user));
     }
 
-    public void update(Long userId, UserUpdateRequestDto requestDto) {
+    public void updateContent(Long userId, UserUpdateRequestDto requestDto) {
         User user = findUserById(userId);
-        user.update(requestDto.getName(),
+        user.updateContent(requestDto.getName(),
             requestDto.getDepartment(), requestDto.getGitEmail());
+    }
+
+    public void updateProfile(Long userId, MultipartFile profileImage) {
+        User user = findUserById(userId);
+        user.updateProfile(awsS3Service.uploadFiles(profileImage));
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {

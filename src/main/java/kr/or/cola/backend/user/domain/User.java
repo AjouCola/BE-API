@@ -80,12 +80,16 @@ public class User extends BaseTimeEntity {
             .collect(Collectors.toList());
     }
 
-    public void update(@NotNull String name,
+    public void updateContent(@NotNull String name,
                        @NotNull Department department,
                        String gitEmail) {
         this.name = name;
         this.gitEmail = gitEmail;
         this.department = department;
+    }
+
+    public void updateProfile(@NotNull String profilePath) {
+        this.profilePath = profilePath;
     }
 
     public String getRoleKey() {
