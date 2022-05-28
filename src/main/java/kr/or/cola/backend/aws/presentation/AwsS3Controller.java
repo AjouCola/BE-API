@@ -2,7 +2,6 @@ package kr.or.cola.backend.aws.presentation;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import java.util.List;
 import kr.or.cola.backend.aws.service.AwsS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +29,7 @@ public class AwsS3Controller {
     public ResponseEntity<String> uploadFile(
             @ApiParam(value="단일 이미지 파일 업로드", required = true)
             @RequestPart(value = "imageFile") MultipartFile imageFile) {
-        return ResponseEntity.ok(awsS3Service.uploadFiles(imageFile));
+        return ResponseEntity.ok(awsS3Service.uploadFile(imageFile));
     }
 
     /**
