@@ -37,6 +37,7 @@ public class PostService {
         Post post = initializePostInfo(postId);
         return PostResponseDto.builder()
             .postId(post.getId())
+            .postType(post.getPostType())
             .title(post.getTitle())
             .content(post.getContent())
             .userInfo(new SimpleUserResponseDto(post.getUser()))
