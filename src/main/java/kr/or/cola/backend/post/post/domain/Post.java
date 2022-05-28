@@ -21,6 +21,7 @@ import kr.or.cola.backend.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Getter
 @NoArgsConstructor
@@ -41,6 +42,11 @@ public class Post extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private PostType postType;
 
+    @Column
+    private String preview;
+
+    private String thumbnailPath;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id")
     private User user;
@@ -52,16 +58,28 @@ public class Post extends BaseTimeEntity {
     private List<PostTag> postTags = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, User user, PostType postType) {
+    public Post(@NonNull String title,
+                         String content,
+                         String preview,
+                         String thumbnailPath,
+                         User user,
+                         PostType postType) {
         this.title = title;
         this.content = content;
+        this.preview = preview;
+        this.thumbnailPath = thumbnailPath;
         this.user = user;
         this.postType = postType;
     }
 
-    public void updateContents(String title, String content) {
+    public void updateContents(String title,
+                               String content,
+                               String preview,
+                               String thumbnailPath) {
         this.title = title;
         this.content = content;
+        this.preview = preview;
+        this.thumbnailPath = thumbnailPath;
     }
 
     public void addPostTags(List<PostTag> postTags) {

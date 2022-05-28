@@ -3,6 +3,7 @@ package kr.or.cola.backend.post.post.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import kr.or.cola.backend.aws.service.AwsS3Service;
 import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
 import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.post.post.domain.PostRepository;
@@ -33,6 +34,8 @@ public class PostService {
 
     private final PostTagService postTagService;
 
+    private final AwsS3Service awsS3Service;
+
     public PostResponseDto getPost(Long postId) {
         Post post = initializePostInfo(postId);
         return PostResponseDto.builder()
@@ -57,6 +60,8 @@ public class PostService {
         Post post = Post.builder()
             .title(requestDto.getTitle())
             .content(requestDto.getContent())
+            .preview(requestDto.getPreview())
+            .thumbnailPath(requestDto.getThumbnailPath())
             .user(user)
             .postType(postType)
             .build();
@@ -69,9 +74,14 @@ public class PostService {
 
     public void updatePost(Long postId, PostCreateOrUpdateRequestDto requestDto) {
         Post post = findPostById(postId);
-        // TODO 태그 정보 수정
+        post.updateContents(
+            requestDto.getTitle(),
+            requestDto.getContent(),
+            requestDto.getPreview(),
+            requestDto.getThumbnailPath()
+        );
 
-        post.updateContents(requestDto.getTitle(), requestDto.getContent());
+        // TODO 태그 정보 수정
     }
 
     public void deletePost(Long postId) {

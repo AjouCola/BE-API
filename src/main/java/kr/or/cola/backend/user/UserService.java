@@ -6,7 +6,6 @@ import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.todo.folder.FolderService;
 import kr.or.cola.backend.todo.folder.domain.Folder;
 import kr.or.cola.backend.todo.folder.domain.FolderRepository;
-import kr.or.cola.backend.todo.folder.dto.FolderUpdateRequestDto;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
@@ -92,7 +91,7 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public void updateProfile(Long userId, MultipartFile profileImage) {
         User user = findUserById(userId);
-        user.updateProfile(awsS3Service.uploadFiles(profileImage));
+        user.updateProfile(awsS3Service.uploadFile(profileImage));
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {

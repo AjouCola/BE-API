@@ -44,7 +44,7 @@ public class PostController {
     @PatchMapping("/{postId}")
     public ResponseEntity<Void> updatePost(
             @PathVariable Long postId,
-            @RequestBody PostCreateOrUpdateRequestDto requestDto) {
+            @Valid @RequestBody PostCreateOrUpdateRequestDto requestDto) {
         postService.updatePost(postId, requestDto);
         return ResponseEntity.ok().build();
     }

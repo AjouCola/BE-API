@@ -8,8 +8,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
-    public String uploadFiles(MultipartFile imageFile) {
+    public String uploadFile(MultipartFile imageFile) {
             if(!Objects.requireNonNull(imageFile.getContentType()).startsWith("image")){
                 throw new IllegalArgumentException("이미지 파일이 아닙니다.");
             }

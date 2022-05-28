@@ -19,7 +19,9 @@ public class FolderController {
     private final FolderService folderService;
 
     @PostMapping("")
-    public ResponseEntity<Long> createFolder(@LoginUser SessionUser sessionUser, @RequestBody FolderUpdateRequestDto requestDto) {
+    public ResponseEntity<Long> createFolder(
+            @LoginUser SessionUser sessionUser,
+            @RequestBody FolderUpdateRequestDto requestDto) {
         log.info("session User : "+ sessionUser.getUserId().toString());
         log.info("folderUpdateResponse : "+ requestDto.getName()+", "+ requestDto.getColor());
 
@@ -28,7 +30,9 @@ public class FolderController {
     }
 
     @PatchMapping("/{folderId}")
-    public ResponseEntity<Void> updateFolder(@PathVariable Long folderId, @RequestBody FolderUpdateRequestDto requestDto) {
+    public ResponseEntity<Void> updateFolder(
+            @PathVariable Long folderId,
+            @RequestBody FolderUpdateRequestDto requestDto) {
         folderService.updateFolder(folderId, requestDto);
         return ResponseEntity.ok().build();
     }
