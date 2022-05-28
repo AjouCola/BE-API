@@ -10,6 +10,8 @@ import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import kr.or.cola.backend.auth.dto.SignUpRequestDto;
+import kr.or.cola.backend.user.presentation.dto.UserResponseDto;
+import kr.or.cola.backend.user.presentation.dto.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,13 +25,19 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final UserRepository userRepository;
+
     private final HttpSession httpSession;
+
+    private final UserRepository userRepository;
+
+    private final FolderRepository folderRepository;
 
     private final FolderService folderService;
 
@@ -50,22 +58,32 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    public User signUp(Long userId, SignUpRequestDto signUpRequestDto) {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-            new IllegalArgumentException("Invalid User ID: id=" + userId));
-        Folder defaultFolder = Folder.builder().user(user).name("일반").color("#ffffff").build();
+    public UserResponseDto signUp(Long userId, SignUpRequestDto signUpRequestDto) {
+        User user = findUserById(userId);
+        Folder defaultFolder = folderRepository.save(
+            Folder.builder()
+            .user(user)
+            .name("일반")
+            .color("#ffffff")
+            .build());
 
         user.signUp(Role.USER,
                 signUpRequestDto.getName(),
                 signUpRequestDto.getAjouEmail(),
                 signUpRequestDto.getGitEmail(),
                 signUpRequestDto.getDepartment(),
-                folderService.createFolder(userId, new FolderUpdateRequestDto("일반", "#ffffff"))+ "",
+                defaultFolder.getFolderId().toString(),
                 null,
                 true
             );
 
-        return userRepository.save(user);
+        return new UserResponseDto(userRepository.save(user));
+    }
+
+    public void update(Long userId, UserUpdateRequestDto requestDto) {
+        User user = findUserById(userId);
+        user.update(requestDto.getName(),
+            requestDto.getDepartment(), requestDto.getGitEmail());
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
@@ -82,6 +100,8 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public User findUserById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
+            .orElseThrow(()
+                -> new IllegalArgumentException(
+                    "Invalid User ID: id=" + userId));
     }
 }

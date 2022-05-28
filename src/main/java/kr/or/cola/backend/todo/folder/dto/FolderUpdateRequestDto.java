@@ -1,16 +1,16 @@
 package kr.or.cola.backend.todo.folder.dto;
 
+import kr.or.cola.backend.todo.folder.domain.Folder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class FolderUpdateRequestDto {
 
-    private String name;
-    private String color;
+    private final String name;
+    private final String color;
 
-    public FolderUpdateRequestDto(String name, String color){
-        this.color = color;
-        this.name = name;
+    public FolderUpdateRequestDto(Folder folder){
+        this.color = folder.getColor();
+        this.name = folder.getName();
     }
 }
