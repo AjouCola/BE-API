@@ -56,8 +56,8 @@ public class User extends BaseTimeEntity {
     }
 
     public void signUp(@NotNull Role role,
-                       @NotNull String ajouEmail,
                        @NotNull String name,
+                       @NotNull String ajouEmail,
                        @Nullable String gitEmail,
                        @NotNull Department department,
                        @NotNull String folderOrder,
