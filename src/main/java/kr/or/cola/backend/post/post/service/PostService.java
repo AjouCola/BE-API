@@ -1,14 +1,20 @@
 package kr.or.cola.backend.post.post.service;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
 import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.post.post.domain.PostRepository;
 import kr.or.cola.backend.post.post.domain.PostType;
 import kr.or.cola.backend.post.post.presentation.dto.PostCreateOrUpdateRequestDto;
 import kr.or.cola.backend.post.post.presentation.dto.PostResponseDto;
 import kr.or.cola.backend.post.post.presentation.dto.SimplePostResponseDto;
+import kr.or.cola.backend.post.post_tag.domain.PostTag;
+import kr.or.cola.backend.post.post_tag.service.PostTagService;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
+import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
@@ -25,8 +31,24 @@ public class PostService {
 
     private final UserRepository userRepository;
 
+    private final PostTagService postTagService;
+
     public PostResponseDto getPost(Long postId) {
-        return new PostResponseDto(initializePostInfo(postId));
+        Post post = initializePostInfo(postId);
+        return PostResponseDto.builder()
+            .postId(post.getId())
+            .title(post.getTitle())
+            .content(post.getContent())
+            .userInfo(new SimpleUserResponseDto(post.getUser()))
+            .comments(post.getComments().stream()
+                .map(CommentResponseDto::new)
+                .collect(Collectors.toList()))
+            .tags(post.getPostTags().stream()
+                .map(postTag -> postTag.getTag().getName())
+                .collect(Collectors.toList()))
+            .createdDate(post.getCreatedDate())
+            .modifiedDate(post.getModifiedDate())
+            .build();
     }
 
     public Long createPost(Long userId, PostType postType, PostCreateOrUpdateRequestDto requestDto) {
@@ -38,15 +60,14 @@ public class PostService {
             .postType(postType)
             .build();
 
-        // TODO 태그 정보 생성
+        List<PostTag> tags = postTagService.setPostTags(post, requestDto.getTags());
+        post.addPostTags(tags);
 
         return postRepository.save(post).getId();
     }
 
-    public void updatePost(Long id, PostCreateOrUpdateRequestDto requestDto) {
-        Post post = postRepository.findById(id).orElseThrow(() ->
-            new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
-
+    public void updatePost(Long postId, PostCreateOrUpdateRequestDto requestDto) {
+        Post post = findPostById(postId);
         // TODO 태그 정보 수정
 
         post.updateContents(requestDto.getTitle(), requestDto.getContent());

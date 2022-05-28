@@ -2,6 +2,7 @@ package kr.or.cola.backend.post.post.presentation.dto;
 
 import java.time.LocalDateTime;
 import kr.or.cola.backend.post.post.domain.Post;
+import kr.or.cola.backend.post.post.domain.PostType;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.Getter;
 import lombok.ToString;
@@ -14,6 +15,7 @@ public class SimplePostResponseDto {
     private final SimpleUserResponseDto userInfo;
     private final LocalDateTime createdDate;
     private final LocalDateTime modifiedDate;
+    private final PostType type;
 
     public SimplePostResponseDto(Post entity) {
         this.postId = entity.getId();
@@ -21,5 +23,6 @@ public class SimplePostResponseDto {
         this.userInfo = new SimpleUserResponseDto(entity.getUser());
         this.createdDate = entity.getCreatedDate();
         this.modifiedDate = entity.getModifiedDate();
+        this.type = entity.getPostType();
     }
 }

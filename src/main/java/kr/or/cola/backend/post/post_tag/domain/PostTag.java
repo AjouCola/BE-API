@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.post.tag.domain.Tag;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,6 +29,7 @@ public class PostTag {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
+    @Builder
     public PostTag(Post post, Tag tag) {
         this.post = post;
         this.tag = tag;
