@@ -1,7 +1,6 @@
 package kr.or.cola.backend.aws.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -29,7 +28,7 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
-    public List<String> uploadFile(List<MultipartFile> files) {
+    public List<String> uploadFiles(List<MultipartFile> files) {
         List<String> fileUrlList = new ArrayList<>();
 
         files.forEach(file -> {
