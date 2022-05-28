@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @RequiredArgsConstructor
+@Transactional
+@Service
 public class FolderService {
     private final FolderRepository folderRepository;
     private final UserRepository userRepository;
@@ -27,34 +29,40 @@ public class FolderService {
                 .name(requestDto.getName())
                 .color(requestDto.getColor())
                 .build();
+
         return folderRepository.save(folder).getFolderId();
     }
 
     // Read
     public List<FolderResponseDto> readFolders(Long userId) {
         return folderRepository.findAllByUserId(userId).stream()
-                .map(FolderResponseDto::new).collect(Collectors.toList());
+            .map(FolderResponseDto::new)
+            .collect(Collectors.toList());
     }
 
     public FolderResponseDto readFolder(Long folderId) {
-        return new FolderResponseDto(folderRepository.findById(folderId).orElse(null));
+        return new FolderResponseDto(findFolderById(folderId));
     }
 
     // Update
-    public Long updateFolder(Long folderId, FolderUpdateRequestDto requestDto) {
+    public void updateFolder(Long folderId, FolderUpdateRequestDto requestDto) {
         Folder folder = folderRepository.getById(folderId);
         folder.update(requestDto.getName(), requestDto.getColor());
-        return folderRepository.save(folder).getFolderId();
+        folderRepository.save(folder);
     }
 
     // Delete
     public void deleteAll(Long userId) {
-        List<Long> ids = folderRepository.findAllByUserId(userId).stream().map(Folder::getFolderId).collect(Collectors.toList());
+        List<Long> ids = folderRepository.findAllByUserId(userId).stream()
+            .map(Folder::getFolderId)
+            .collect(Collectors.toList());
         deleteAllFolder(ids);
     }
+
     public void deleteAllFolder(List<Long> folderIds) {
         folderRepository.deleteAllById(folderIds);
     }
+
     public void deleteFolder(Long folderId) {
         folderRepository.deleteById(folderId);
     }
@@ -66,6 +74,13 @@ public class FolderService {
      */
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
+                .orElseThrow(() ->
+                    new IllegalArgumentException("Invalid User ID: id=" + userId));
+    }
+
+    private Folder findFolderById(Long folderId) {
+        return folderRepository.findById(folderId)
+            .orElseThrow(() ->
+                new IllegalArgumentException("Invalid Folder id: id=" + folderId));
     }
 }

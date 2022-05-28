@@ -6,9 +6,9 @@ import lombok.Getter;
 
 @Getter
 public class FolderResponseDto {
-    private Long folderId;
-    private String name;
-    private String color;
+    private final Long folderId;
+    private final String name;
+    private final String color;
 
     @Builder
     public FolderResponseDto(Folder folder) {

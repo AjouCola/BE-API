@@ -4,13 +4,10 @@ import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,12 +80,16 @@ public class User extends BaseTimeEntity {
             .collect(Collectors.toList());
     }
 
-    public void update(@NotNull String name,
-                       @Nullable String gitEmail,
-                       @NotNull Department department) {
+    public void updateContent(@NotNull String name,
+                       @NotNull Department department,
+                       String gitEmail) {
         this.name = name;
         this.gitEmail = gitEmail;
         this.department = department;
+    }
+
+    public void updateProfile(@NotNull String profilePath) {
+        this.profilePath = profilePath;
     }
 
     public String getRoleKey() {
