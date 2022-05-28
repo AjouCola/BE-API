@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/folder")
 @RequiredArgsConstructor
 public class FolderController {
-    private FolderService folderService;
+    private final FolderService folderService;
 
     @PostMapping("")
     public ResponseEntity<Long> createFolder(@LoginUser SessionUser sessionUser, @RequestBody FolderUpdateRequestDto requestDto) {
@@ -37,12 +37,6 @@ public class FolderController {
     @GetMapping("")
     public ResponseEntity<List<FolderResponseDto>> getFolders(@LoginUser SessionUser sessionUser) {
         List<FolderResponseDto> folderResponse = folderService.readFolders(sessionUser.getUserId());
-        return ResponseEntity.ok(folderResponse);
-    }
-
-    @GetMapping("/{folderId}")
-    public ResponseEntity<FolderResponseDto> getFolder(@PathVariable Long folderId) {
-        FolderResponseDto folderResponse = folderService.readFolder(folderId);
         return ResponseEntity.ok(folderResponse);
     }
 
