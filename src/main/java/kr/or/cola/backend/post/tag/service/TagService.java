@@ -15,7 +15,7 @@ public class TagService {
     private final TagRepository tagRepository;
 
     public Tag createTagIfNotExist(String tagName) {
-        Tag tag = new Tag(tagName);
+        Tag tag = new Tag(tagName.toLowerCase());
 
         return tagRepository.findByName(tag.getName())
             .orElseGet(() -> tagRepository.save(tag));

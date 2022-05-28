@@ -32,4 +32,8 @@ public class PostTagService {
             .collect(Collectors.toList());
     }
 
+//    public List<PostTag> updatePostTags(Post post, List<String> tagNames) {
+//
+//    }
+
 }

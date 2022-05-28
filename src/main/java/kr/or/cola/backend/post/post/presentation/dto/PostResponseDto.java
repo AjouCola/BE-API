@@ -2,9 +2,8 @@ package kr.or.cola.backend.post.post.presentation.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
-import kr.or.cola.backend.post.post.domain.Post;
+import kr.or.cola.backend.post.post.domain.PostType;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,6 +15,8 @@ import lombok.Getter;
 public class PostResponseDto {
 
     private final Long postId;
+
+    private final PostType postType;
 
     private final String title;
 
@@ -31,17 +32,4 @@ public class PostResponseDto {
 
     private final LocalDateTime modifiedDate;
 
-//    @Builder
-//    public PostResponseDto(Post entity) {
-//        this.postId = entity.getId();
-//        this.title = entity.getTitle();
-//        this.content = entity.getContent();
-//        this.userInfo = new SimpleUserResponseDto(entity.getUser());
-//        this.comments = entity.getComments()
-//            .stream()
-//            .map(CommentResponseDto::new)
-//            .collect(Collectors.toList());
-//        this.createdDate = entity.getCreatedDate();
-//        this.modifiedDate = entity.getModifiedDate();
-//    }
 }
