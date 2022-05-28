@@ -53,21 +53,28 @@ public class User extends BaseTimeEntity {
     }
 
     public void signUp(@NotNull Role role,
-                       @NotNull String name,
                        @NotNull String ajouEmail,
+                       @NotNull String name,
                        @Nullable String gitEmail,
                        @NotNull Department department,
                        @Nullable String profilePath,
                        @NotNull Boolean isVerified) {
 
         this.role = role;
-        this.name = name;
         this.ajouEmail = ajouEmail;
-        this.department = department;
-        this.isVerified = isVerified;
-
+        this.name = name;
         this.gitEmail = gitEmail;
+        this.department = department;
         this.profilePath = profilePath;
+        this.isVerified = isVerified;
+    }
+
+    public void update(@NotNull String name,
+                       @Nullable String gitEmail,
+                       @NotNull Department department) {
+        this.name = name;
+        this.gitEmail = gitEmail;
+        this.department = department;
     }
 
     public String getRoleKey() {
