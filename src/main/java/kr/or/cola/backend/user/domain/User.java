@@ -4,12 +4,13 @@ import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -46,6 +47,8 @@ public class User extends BaseTimeEntity {
     @Column(name="is_verified")
     private boolean isVerified;
 
+    private String folderOrder;
+
     @Builder
     public User(String email, Role role) {
         this.email = email;
@@ -57,6 +60,7 @@ public class User extends BaseTimeEntity {
                        @NotNull String name,
                        @Nullable String gitEmail,
                        @NotNull Department department,
+                       @NotNull String folderOrder,
                        @Nullable String profilePath,
                        @NotNull Boolean isVerified) {
 
@@ -67,11 +71,18 @@ public class User extends BaseTimeEntity {
         this.department = department;
         this.profilePath = profilePath;
         this.isVerified = isVerified;
+        this.folderOrder = folderOrder;
+    }
+
+    public List<Long> getFolderOrder() {
+        return Arrays.stream(this.folderOrder.split(","))
+            .map(Long::getLong)
+            .collect(Collectors.toList());
     }
 
     public void update(@NotNull String name,
-                       @Nullable String gitEmail,
-                       @NotNull Department department) {
+                       @NotNull Department department,
+                       String gitEmail) {
         this.name = name;
         this.gitEmail = gitEmail;
         this.department = department;

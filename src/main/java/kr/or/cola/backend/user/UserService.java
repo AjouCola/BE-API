@@ -2,6 +2,10 @@ package kr.or.cola.backend.user;
 
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.todo.folder.FolderService;
+import kr.or.cola.backend.todo.folder.domain.Folder;
+import kr.or.cola.backend.todo.folder.domain.FolderRepository;
+import kr.or.cola.backend.todo.folder.dto.FolderUpdateRequestDto;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
@@ -21,13 +25,21 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final UserRepository userRepository;
+
     private final HttpSession httpSession;
+
+    private final UserRepository userRepository;
+
+    private final FolderRepository folderRepository;
+
+    private final FolderService folderService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -48,12 +60,19 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public UserResponseDto signUp(Long userId, SignUpRequestDto signUpRequestDto) {
         User user = findUserById(userId);
+        Folder defaultFolder = folderRepository.save(
+            Folder.builder()
+            .user(user)
+            .name("일반")
+            .color("#ffffff")
+            .build());
 
         user.signUp(Role.USER,
                 signUpRequestDto.getName(),
                 signUpRequestDto.getAjouEmail(),
                 signUpRequestDto.getGitEmail(),
                 signUpRequestDto.getDepartment(),
+                defaultFolder.getFolderId().toString(),
                 null,
                 true
             );
@@ -64,7 +83,7 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
     public void update(Long userId, UserUpdateRequestDto requestDto) {
         User user = findUserById(userId);
         user.update(requestDto.getName(),
-            requestDto.getGitEmail(), requestDto.getDepartment());
+            requestDto.getDepartment(), requestDto.getGitEmail());
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
