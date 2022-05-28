@@ -6,6 +6,8 @@ import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import kr.or.cola.backend.auth.dto.SignUpRequestDto;
+import kr.or.cola.backend.user.presentation.dto.UserResponseDto;
+import kr.or.cola.backend.user.presentation.dto.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -44,9 +46,8 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    public User signUp(Long userId, SignUpRequestDto signUpRequestDto) {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-            new IllegalArgumentException("Invalid User ID: id=" + userId));
+    public UserResponseDto signUp(Long userId, SignUpRequestDto signUpRequestDto) {
+        User user = findUserById(userId);
 
         user.signUp(Role.USER,
                 signUpRequestDto.getName(),
@@ -57,7 +58,13 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
                 true
             );
 
-        return userRepository.save(user);
+        return new UserResponseDto(userRepository.save(user));
+    }
+
+    public void update(Long userId, UserUpdateRequestDto requestDto) {
+        User user = findUserById(userId);
+        user.update(requestDto.getName(),
+            requestDto.getGitEmail(), requestDto.getDepartment());
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
@@ -74,6 +81,8 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public User findUserById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
+            .orElseThrow(()
+                -> new IllegalArgumentException(
+                    "Invalid User ID: id=" + userId));
     }
 }
