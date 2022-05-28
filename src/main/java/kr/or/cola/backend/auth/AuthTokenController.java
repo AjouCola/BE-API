@@ -8,6 +8,7 @@ import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.auth.dto.SignUpRequestDto;
+import kr.or.cola.backend.user.presentation.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,8 +38,8 @@ public class AuthTokenController {
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<User> signUp(@LoginUser SessionUser sessionUser, @RequestBody SignUpRequestDto requestDto) {
-        User user = userService.signUp(sessionUser.getUserId(), requestDto);
+    public ResponseEntity<UserResponseDto> signUp(@LoginUser SessionUser sessionUser, @RequestBody SignUpRequestDto requestDto) {
+        UserResponseDto user = userService.signUp(sessionUser.getUserId(), requestDto);
         return ResponseEntity.ok(user);
     }
 }
