@@ -11,9 +11,9 @@ import lombok.Builder;
  */
 
 public class ProgressDto {
-    private String color;
-    private String name;
-    private int progress;
+    private final String color;
+    private final String name;
+    private final int progress;
 
     @Builder
     public ProgressDto(String color, String name, int progress) {

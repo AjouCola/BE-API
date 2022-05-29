@@ -7,12 +7,14 @@ import lombok.Getter;
 
 @Getter
 public class TodoFolderResponseDto {
-    private ItemsResponseDto item;
-    private String name;
-    private String color;
+    private final ItemsResponseDto item;
+    private final String name;
+    private final String color;
+    private final Long folderId;
 
     @Builder
     public TodoFolderResponseDto(Folder folder, ItemsResponseDto itemsResponseDto) {
+        this.folderId = folder.getFolderId();
         this.color = folder.getColor();
         this.name = folder.getName();
         this.item = itemsResponseDto;
