@@ -21,4 +21,5 @@ public class TodoController {
                                                        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return ResponseEntity.ok(todoService.getTodolist(sessionUser.getUserId(), date));
     }
+
 }

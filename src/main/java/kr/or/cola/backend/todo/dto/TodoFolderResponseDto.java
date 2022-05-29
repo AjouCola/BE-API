@@ -1,7 +1,7 @@
 package kr.or.cola.backend.todo.dto;
 
 import kr.or.cola.backend.todo.folder.domain.Folder;
-import kr.or.cola.backend.todo.folder.dto.ItemsResponseDto;
+import kr.or.cola.backend.todo.item.dto.ItemsResponseDto;
 import lombok.Builder;
 
 public class TodoFolderResponseDto {
