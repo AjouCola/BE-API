@@ -16,6 +16,10 @@ public class TodoProgressResponseDto {
         this.date = date;
         this.todoProgress = todoProgress;
     }
+
+    public void update(List<ProgressDto> todoProgress) {
+        this.todoProgress = todoProgress;
+    }
 }
 
 

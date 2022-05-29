@@ -1,5 +1,7 @@
 package kr.or.cola.backend.todo.item;
 
+import kr.or.cola.backend.todo.dto.ProgressDto;
+import kr.or.cola.backend.todo.folder.domain.Folder;
 import kr.or.cola.backend.todo.item.dto.ItemsResponseDto;
 import kr.or.cola.backend.todo.item.domain.Item;
 import kr.or.cola.backend.todo.item.domain.ItemRepository;
@@ -7,12 +9,15 @@ import kr.or.cola.backend.todo.item.dto.ItemDto;
 import kr.or.cola.backend.todo.item.dto.ItemCreateOrUpdateRequestDto;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
 import software.amazon.ion.NullValueException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service

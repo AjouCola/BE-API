@@ -13,4 +13,6 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
     Optional<Item> findByDateAndFolderId(LocalDate date, Long folderId);
     List<Item> findAllByDateAndFolderIdIn(LocalDate date, List<Long> folders);
     void deleteAllByFolderId(Long folderId);
+
+    List<Item> findAllByDateBetweenAndFolderIdIn(LocalDate from, LocalDate to, List<Long> folders);
 }
