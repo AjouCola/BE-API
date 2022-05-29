@@ -73,7 +73,11 @@ public class TodoService {
     public List<TodoProgressResponseDto> getProgressList(Long userId, LocalDate month) {
 
         List<Long> folderIds = userRepository.findById(userId).orElseThrow(() -> new NullValueException("is not user")).getFolderOrder();
-        List<Progress> processes = itemRepository.findAllByDateBetweenAndFolderIdIn(month, month.plusMonths(1), folderIds).stream().map(Progress::new).collect(Collectors.toList());
+        List<Progress> processes = itemRepository
+                .findAllByDateBetweenAndFolderIdIn(month, month.plusMonths(1), folderIds)
+                .stream()
+                .map(Progress::new)
+                .collect(Collectors.toList());
 
         Map<Long, Folder> folders = new HashMap<>();
         folderRepository.findAllByUserId(userId)
@@ -86,14 +90,15 @@ public class TodoService {
                     .name(folders.get(progress.getFolderId()).getName())
                     .progress(progress.getProgress())
                     .build();
-
-            progressMap.get(progress.getDate()).add(progressDto);
+            List<ProgressDto> progressDtos = progressMap.getOrDefault(progress.getDate(), new ArrayList<>());
+            progressDtos.add(progressDto);
+            progressMap.put(progress.getDate(), progressDtos);
         });
         List<TodoProgressResponseDto> responseDtos = new ArrayList<>();
 
         progressMap.forEach((key, value) -> {
             responseDtos.add(new TodoProgressResponseDto(key, value));
         });
-        return null;
+        return responseDtos;
     }
 }
