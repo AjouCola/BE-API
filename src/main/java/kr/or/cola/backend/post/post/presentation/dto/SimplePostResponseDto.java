@@ -13,6 +13,8 @@ public class SimplePostResponseDto {
     private final Long postId;
     private final String title;
     private final SimpleUserResponseDto userInfo;
+    private final String preview;
+    private final String thumbnailPath;
     private final LocalDateTime createdDate;
     private final LocalDateTime modifiedDate;
     private final PostType type;
@@ -21,6 +23,8 @@ public class SimplePostResponseDto {
         this.postId = entity.getId();
         this.title = entity.getTitle();
         this.userInfo = new SimpleUserResponseDto(entity.getUser());
+        this.preview = entity.getPreview();
+        this.thumbnailPath = entity.getThumbnailPath();
         this.createdDate = entity.getCreatedDate();
         this.modifiedDate = entity.getModifiedDate();
         this.type = entity.getPostType();
