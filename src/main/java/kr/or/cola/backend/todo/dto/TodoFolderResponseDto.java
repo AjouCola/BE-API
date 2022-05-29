@@ -10,11 +10,11 @@ public class TodoFolderResponseDto {
     private final ItemsResponseDto item;
     private final String name;
     private final String color;
-    private final Long folderId;
+    private final Long folder_id;
 
     @Builder
     public TodoFolderResponseDto(Folder folder, ItemsResponseDto itemsResponseDto) {
-        this.folderId = folder.getFolderId();
+        this.folder_id = folder.getFolderId();
         this.color = folder.getColor();
         this.name = folder.getName();
         this.item = itemsResponseDto;

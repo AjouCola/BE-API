@@ -26,7 +26,7 @@ public class TodoController {
 
     @GetMapping("/progress/{month}")
     public ResponseEntity<List<TodoProgressResponseDto>> getProgressList(@LoginUser SessionUser sessionUser,
-                                                                         @PathVariable @DateTimeFormat(pattern = "yyyy-MM") LocalDate month) {
+                                                                         @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate month) {
         return ResponseEntity.ok(todoService.getProgressList(sessionUser.getUserId(), month));
     }
 }

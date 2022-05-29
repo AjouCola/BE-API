@@ -1,6 +1,7 @@
 package kr.or.cola.backend.todo.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 
 /**
  * {
@@ -10,6 +11,7 @@ import lombok.Builder;
  * }
  */
 
+@Getter
 public class ProgressDto {
     private final String color;
     private final String name;
