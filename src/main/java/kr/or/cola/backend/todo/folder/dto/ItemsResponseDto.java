@@ -1,9 +1,7 @@
-package kr.or.cola.backend.todo.item.dto;
+package kr.or.cola.backend.todo.folder.dto;
 
 import kr.or.cola.backend.todo.item.domain.Item;
-import lombok.Getter;
 
-@Getter
 public class ItemsResponseDto {
 
     private Long itemId;

@@ -11,7 +11,6 @@ import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.jni.Local;
 import org.springframework.stereotype.Service;
-import software.amazon.ion.NullValueException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,37 +26,33 @@ public class ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
-    public void saveItems(List<ItemsResponseDto> itemsResponseDtos) {
-        itemsResponseDtos.forEach(itemDto -> {
-            Item item = itemRepository.findById(itemDto.getItemId()).orElseThrow(()-> new IllegalArgumentException("Cannot found item"));
-            item.update(item.getDate(), item.getFolderId(), itemDto.getTodos(), itemDto.getProgress());
+    // Create or Update
+    public void createOrUpdateItems(ItemCreateOrUpdateRequestDto requestDto) {
+        requestDto.getItemDtos().forEach(itemDto -> {
+            Item item = itemRepository.findByDateAndFolderId(itemDto.getDate(), itemDto.getFolderId());
+            if (item == null) {
+                item =  Item.builder()
+                        .date(itemDto.getDate())
+                        .folderId(itemDto.getFolderId())
+                        .todos(itemDto.getTodos())
+                        .progress(itemDto.getProgress())
+                        .build();
+            } else {
+                item.update(itemDto.getDate(), itemDto.getFolderId(), itemDto.getTodos(), itemDto.getProgress());
+            }
             itemRepository.save(item);
         });
-    }
-    public Item createUpdateEmptyItemList(LocalDate date, Long folderId) {
-        Item item =  Item.builder()
-                .date(date)
-                .folderId(folderId)
-                .todos("")
-                .progress(0)
-                .build();
-        itemRepository.save(
-                item
-        );
-        return item;
     }
 
     // Read
     public List<ItemDto> readItems(Long userId, LocalDate date) {
         List<Long> folderIds = userRepository.findById(userId).orElseThrow().getFolderOrder();
-        List<Item> items = new ArrayList<>();
-        folderIds.forEach(folderId -> {
-            Item item = itemRepository.findByDateAndFolderId(date, folderId).orElse(createUpdateEmptyItemList(date, folderId));
-           items.add(item);
-        });
-
-        return items.stream()
+        return itemRepository.findAllByDateAndFolderIdIn(date, folderIds).stream()
                 .map(ItemDto::new).collect(Collectors.toList());
+    }
+
+    public ItemDto readItem(LocalDate date, Long folderId) {
+        return new ItemDto(itemRepository.findByDateAndFolderId(date, folderId));
     }
 
     // Delete

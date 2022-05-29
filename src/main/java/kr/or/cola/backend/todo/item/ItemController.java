@@ -2,7 +2,6 @@ package kr.or.cola.backend.todo.item;
 
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
-import kr.or.cola.backend.todo.item.dto.ItemsResponseDto;
 import kr.or.cola.backend.todo.item.dto.ItemCreateOrUpdateRequestDto;
 import kr.or.cola.backend.todo.item.dto.ItemDto;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +18,9 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
 
-    @PostMapping("/save")
-    public ResponseEntity<Void> saveItem(@RequestBody List<ItemsResponseDto> itemsResponseDtos) {
-        itemService.saveItems(itemsResponseDtos);
+    @PostMapping("")
+    public ResponseEntity<Void> createItem(@RequestBody ItemCreateOrUpdateRequestDto requestDto) {
+        itemService.createOrUpdateItems(requestDto);
         return ResponseEntity.ok().build();
     }
 
