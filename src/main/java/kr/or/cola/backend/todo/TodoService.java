@@ -1,6 +1,7 @@
 package kr.or.cola.backend.todo;
 
 import kr.or.cola.backend.todo.dto.TodoFolderResponseDto;
+import kr.or.cola.backend.todo.dto.TodoProgressResponseDto;
 import kr.or.cola.backend.todo.dto.TodoResponseDto;
 import kr.or.cola.backend.todo.folder.domain.Folder;
 import kr.or.cola.backend.todo.folder.domain.FolderRepository;
@@ -49,5 +50,10 @@ public class TodoService {
         });
 
         return new TodoResponseDto(date, folderResponses);
+    }
+
+    public List<TodoProgressResponseDto> getProgressList(Long userId, LocalDate month) {
+
+        return null;
     }
 }
