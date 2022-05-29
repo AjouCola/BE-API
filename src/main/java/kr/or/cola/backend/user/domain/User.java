@@ -85,7 +85,9 @@ public class User extends BaseTimeEntity {
         this.gitEmail = gitEmail;
         this.department = department;
     }
-
+    public void addFolder(Long folderId) {
+        this.folderOrder.add(folderId);
+    }
     public void updateProfile(@NotNull String profilePath) {
         this.profilePath = profilePath;
     }
