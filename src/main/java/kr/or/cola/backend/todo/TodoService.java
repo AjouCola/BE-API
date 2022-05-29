@@ -13,6 +13,7 @@ import kr.or.cola.backend.todo.item.domain.ItemRepository;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import software.amazon.ion.NullValueException;
 
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TodoService {
@@ -39,17 +41,29 @@ public class TodoService {
                 .forEach(folder -> folders.put(folder.getFolderId(), folder));
 
         Map<Long, Item> items = new HashMap<>();
-        itemRepository. findAllByDateAndFolderIdIn(date, folderOrders)
-                .forEach(item -> items.put(item.getFolderId(), item));;
+        itemRepository.findAllByDateAndFolderIdIn(date, folderOrders)
+                .forEach(item -> items.put(item.getFolderId(), item));
+
 
         List<TodoFolderResponseDto> folderResponses = new ArrayList<>();
 
         folderOrders.forEach(folderId -> {
-            TodoFolderResponseDto folderResponseDto = TodoFolderResponseDto.builder()
-                    .folder(folders.get(folderId))
-                    .itemsResponseDto(new ItemsResponseDto(items.get(folderId)))
-                    .build();
+            log.info("folderId : " + folderId);
+            Item item = items.get(folderId);
+            TodoFolderResponseDto folderResponseDto;
 
+            if (item == null) {
+                folderResponseDto = TodoFolderResponseDto.builder()
+                        .folder(folders.get(folderId))
+                        .itemsResponseDto(null)
+                        .build();
+            }
+            else {
+                folderResponseDto = TodoFolderResponseDto.builder()
+                        .folder(folders.get(folderId))
+                        .itemsResponseDto(new ItemsResponseDto(item))
+                        .build();
+            }
             folderResponses.add(folderResponseDto);
         });
 

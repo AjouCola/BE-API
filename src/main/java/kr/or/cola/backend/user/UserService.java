@@ -24,7 +24,10 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,13 +72,14 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
             .name("일반")
             .color("#ffffff")
             .build());
-
+        List<Long> folderOrder = new ArrayList<>();
+        folderOrder.add(defaultFolder.getFolderId());
         user.signUp(Role.USER,
                 signUpRequestDto.getName(),
                 signUpRequestDto.getAjouEmail(),
                 signUpRequestDto.getGitEmail(),
                 signUpRequestDto.getDepartment(),
-                defaultFolder.getFolderId().toString(),
+                folderOrder,
                 null,
                 true
             );
