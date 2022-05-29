@@ -2,11 +2,13 @@ package kr.or.cola.backend.todo.item.dto;
 
 import kr.or.cola.backend.todo.item.domain.Item;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
 @Getter
+@NoArgsConstructor
 public class ItemDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;

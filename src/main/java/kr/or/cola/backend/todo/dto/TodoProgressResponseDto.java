@@ -1,10 +1,12 @@
 package kr.or.cola.backend.todo.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
 public class TodoProgressResponseDto {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
