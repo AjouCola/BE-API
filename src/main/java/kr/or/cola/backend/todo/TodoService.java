@@ -48,7 +48,7 @@ public class TodoService {
         List<TodoFolderResponseDto> folderResponses = new ArrayList<>();
 
         folderOrders.forEach(folderId -> {
-            log.info("folderId : " + folderId);
+//            log.info("folderId : " + folderId);
             Item item = items.get(folderId);
             TodoFolderResponseDto folderResponseDto;
 
