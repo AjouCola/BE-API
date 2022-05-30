@@ -4,7 +4,6 @@ import kr.or.cola.backend.user.domain.Department;
 import kr.or.cola.backend.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public class UserResponseDto {

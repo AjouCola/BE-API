@@ -83,6 +83,10 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new UserResponseDto(userRepository.save(user));
     }
 
+    public UserResponseDto findUserInfo(Long userId) {
+        return new UserResponseDto(findUserById(userId));
+    }
+
     public void updateContent(Long userId, UserUpdateRequestDto requestDto) {
         User user = findUserById(userId);
         user.updateContent(requestDto.getName(),
@@ -103,7 +107,10 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-            .orElse(null);
+            .orElseThrow(()
+                -> new IllegalArgumentException(
+                "Invalid User email: email=" + email)
+            );
     }
 
     public User findUserById(Long userId) {

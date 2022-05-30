@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
@@ -28,8 +29,8 @@ public class PostCreateOrUpdateRequestDto {
     private List<String> tags;
 
     @Builder
-    public PostCreateOrUpdateRequestDto(String title,
-                                        String content,
+    public PostCreateOrUpdateRequestDto(@NonNull String title,
+                                        @NonNull String content,
                                         String preview,
                                         String thumbnailPath,
                                         List<String> tags) {

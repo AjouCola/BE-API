@@ -5,6 +5,7 @@ import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.User;
+import kr.or.cola.backend.user.presentation.dto.UserResponseDto;
 import kr.or.cola.backend.user.presentation.dto.UserUpdateRequestDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +21,9 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<User> getUserInfo(@NonNull @LoginUser SessionUser sessionUser) {
-        User user = userService.findUserById(sessionUser.getUserId());
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserResponseDto> getUserInfo(@NonNull @LoginUser SessionUser sessionUser) {
+        UserResponseDto userInfo = userService.findUserInfo(sessionUser.getUserId());
+        return ResponseEntity.ok(userInfo);
     }
 
     @PutMapping("")
