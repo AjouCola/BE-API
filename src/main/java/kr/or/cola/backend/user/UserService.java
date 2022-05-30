@@ -1,11 +1,17 @@
 package kr.or.cola.backend.user;
 
+import kr.or.cola.backend.aws.service.AwsS3Service;
 import kr.or.cola.backend.oauth.dto.OAuthAttributes;
 import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.todo.folder.FolderService;
+import kr.or.cola.backend.todo.folder.domain.Folder;
+import kr.or.cola.backend.todo.folder.domain.FolderRepository;
 import kr.or.cola.backend.user.domain.Role;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import kr.or.cola.backend.auth.dto.SignUpRequestDto;
+import kr.or.cola.backend.user.presentation.dto.UserResponseDto;
+import kr.or.cola.backend.user.presentation.dto.UserUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,14 +24,28 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final UserRepository userRepository;
+
     private final HttpSession httpSession;
+
+    private final UserRepository userRepository;
+
+    private final FolderRepository folderRepository;
+
+    private final FolderService folderService;
+
+    private final AwsS3Service awsS3Service;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -44,20 +64,38 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())), attributes.getAttributes(), attributes.getNameAttributeKey());
     }
 
-    public User signUp(Long userId, SignUpRequestDto signUpRequestDto) {
-        User user = userRepository.findById(userId).orElseThrow(() ->
-            new IllegalArgumentException("Invalid User ID: id=" + userId));
-
+    public UserResponseDto signUp(Long userId, SignUpRequestDto signUpRequestDto) {
+        User user = findUserById(userId);
+        Folder defaultFolder = folderRepository.save(
+            Folder.builder()
+            .user(user)
+            .name("일반")
+            .color("#ffffff")
+            .build());
+        List<Long> folderOrder = new ArrayList<>();
+        folderOrder.add(defaultFolder.getFolderId());
         user.signUp(Role.USER,
                 signUpRequestDto.getName(),
                 signUpRequestDto.getAjouEmail(),
                 signUpRequestDto.getGitEmail(),
                 signUpRequestDto.getDepartment(),
+                folderOrder,
                 null,
                 true
             );
 
-        return userRepository.save(user);
+        return new UserResponseDto(userRepository.save(user));
+    }
+
+    public void updateContent(Long userId, UserUpdateRequestDto requestDto) {
+        User user = findUserById(userId);
+        user.updateContent(requestDto.getName(),
+            requestDto.getDepartment(), requestDto.getGitEmail());
+    }
+
+    public void updateProfile(Long userId, MultipartFile profileImage) {
+        User user = findUserById(userId);
+        user.updateProfile(awsS3Service.uploadFile(profileImage));
     }
 
     private User saveOrUpdate(OAuthAttributes attributes) {
@@ -74,6 +112,9 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     public User findUserById(Long userId) {
         return userRepository.findById(userId)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid User ID: id=" + userId));
+            .orElseThrow(()
+                -> new IllegalArgumentException(
+                    "Invalid User ID: id=" + userId)
+            );
     }
 }

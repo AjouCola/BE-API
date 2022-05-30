@@ -1,7 +1,6 @@
 package kr.or.cola.backend.aws.service;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
@@ -9,8 +8,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -29,29 +26,23 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
-    public List<String> uploadFile(List<MultipartFile> files) {
-        List<String> fileUrlList = new ArrayList<>();
-
-        files.forEach(file -> {
-            if(!Objects.requireNonNull(file.getContentType()).startsWith("image")){
+    public String uploadFile(MultipartFile imageFile) {
+            if(!Objects.requireNonNull(imageFile.getContentType()).startsWith("image")){
                 throw new IllegalArgumentException("이미지 파일이 아닙니다.");
             }
-            String fileName = createFileName(file.getOriginalFilename());
+            String fileName = createFileName(imageFile.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
-            objectMetadata.setContentLength(file.getSize());
-            objectMetadata.setContentType(file.getContentType());
+            objectMetadata.setContentLength(imageFile.getSize());
+            objectMetadata.setContentType(imageFile.getContentType());
 
-            try(InputStream inputStream = file.getInputStream()) {
+            try(InputStream inputStream = imageFile.getInputStream()) {
                 amazonS3.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
                     .withCannedAcl(CannedAccessControlList.PublicRead));
             } catch(IOException e) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패했습니다.");
             }
 
-            fileUrlList.add(getFileUrl(fileName));
-        });
-
-        return fileUrlList;
+        return getFileUrl(fileName);
     }
 
     public void deleteFile(String fileName) {

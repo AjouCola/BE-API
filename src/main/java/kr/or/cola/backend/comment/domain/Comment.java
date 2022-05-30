@@ -11,7 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import kr.or.cola.backend.common.BaseTimeEntity;
-import kr.or.cola.backend.post.domain.Post;
+import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
