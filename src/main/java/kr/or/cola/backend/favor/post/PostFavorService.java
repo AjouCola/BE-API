@@ -1,15 +1,12 @@
 package kr.or.cola.backend.favor.post;
 
-import kr.or.cola.backend.favor.comment.domain.CommentFavorPK;
-import kr.or.cola.backend.favor.dto.FavorCURequestDto;
-import kr.or.cola.backend.favor.dto.FavorResponseDto;
 import kr.or.cola.backend.favor.post.domain.PostFavor;
-import kr.or.cola.backend.favor.post.domain.PostFavorPK;
 import kr.or.cola.backend.favor.post.domain.PostFavorRepository;
+import kr.or.cola.backend.favor.post.dto.PostFavorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import software.amazon.ion.NullValueException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,32 +15,31 @@ import java.util.stream.Collectors;
 public class PostFavorService {
     private final PostFavorRepository postFavorRepository;
 
-    public void createOrUpdateLike(FavorCURequestDto requestDto) {
-        postFavorRepository
-                .findAllById(
-                        (Iterable<PostFavorPK>) PostFavorPK.builder()
-                                .postId(requestDto.getContentId())
-                                .userId(requestDto.getUserId())
-                                .build()
-                );
+    public void createOrUpdateLike(Long userId, Long postId) {
+        PostFavor postFavor =  postFavorRepository
+                .findByUserIdAndPostId(userId, postId)
+                .orElse(new PostFavor(userId, postId));
+        postFavorRepository.save(postFavor);
     }
 
-    public List<FavorResponseDto> getLikes(Long contentId, Long userId) {
-        return getPostLikes(contentId, userId);
+    public void deleteLike(Long userId, Long postId) {
+        PostFavor postFavor = postFavorRepository.findByUserIdAndPostId(userId, postId)
+                .orElseThrow(()->new NullValueException("favor is null"));
+        postFavorRepository.delete(postFavor);
     }
 
-    private List<FavorResponseDto> getPostLikes(Long postId, Long userId) {
-        List<PostFavor> likes = new ArrayList<>();
-        if (postId == null && userId != null) {
-            likes = postFavorRepository.findAllByUserId(userId);
-        }
-        else if (postId != null && userId == null) {
-            likes =  postFavorRepository.findAllByPostId(postId);
-        }
-        else if (postId != null && userId != null) {
-            likes =  postFavorRepository.findAllById((Iterable<PostFavorPK>) new CommentFavorPK(userId, postId));
-        }
-        return likes.stream().map(FavorResponseDto::new).collect(Collectors.toList());
+    public PostFavorResponseDto getPostLikes(Long userId, Long postId) {
+        return new PostFavorResponseDto(postFavorRepository.findByUserIdAndPostId(userId, postId)
+                .orElse(new PostFavor(userId, postId)));
     }
 
+    public List<PostFavorResponseDto> getPostLikes(Long postId) {
+        return postFavorRepository.findAllByPostId(postId)
+                .stream().map(PostFavorResponseDto::new).collect(Collectors.toList());
+    }
+
+    public List<PostFavorResponseDto> getUserLikes(Long userId) {
+        return postFavorRepository.findAllByUserId(userId)
+                .stream().map(PostFavorResponseDto::new).collect(Collectors.toList());
+    }
 }

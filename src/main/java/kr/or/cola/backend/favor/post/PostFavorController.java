@@ -1,12 +1,10 @@
 package kr.or.cola.backend.favor.post;
 
-import kr.or.cola.backend.favor.dto.FavorCURequestDto;
-import kr.or.cola.backend.favor.dto.FavorResponseDto;
+import kr.or.cola.backend.oauth.LoginUser;
+import kr.or.cola.backend.oauth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -14,20 +12,15 @@ import java.util.List;
 public class PostFavorController {
     private final PostFavorService postFavorService;
 
-    @PostMapping("")
-    public ResponseEntity<Void> createOrUpdateLike(@RequestBody FavorCURequestDto requestDto){
-        postFavorService.createOrUpdateLike(requestDto);
+    @GetMapping("{postId}")
+    public ResponseEntity<Void> createOrUpdateLike(@LoginUser SessionUser sessionUser, @PathVariable Long postId){
+        postFavorService.createOrUpdateLike(sessionUser.getUserId(), postId);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("")
-    public ResponseEntity<List<FavorResponseDto>> getLikesInfo(@RequestParam(value = "content", required = false) Long contentId, @RequestParam(value = "user", required = false) Long userId) {
-        List<FavorResponseDto> responseDtos = postFavorService.getLikes(contentId, userId);
-        return ResponseEntity.ok(responseDtos);
-    }
-
-    @GetMapping("/{contentId}")
-    public ResponseEntity<Integer> getLikeCount(@PathVariable Long contentId) {
-        return ResponseEntity.ok(0);
+    @DeleteMapping("{postId}")
+    public ResponseEntity<Void> deleteLike(@LoginUser SessionUser sessionUser, @PathVariable Long postId){
+        postFavorService.deleteLike(sessionUser.getUserId(), postId);
+        return ResponseEntity.ok().build();
     }
 }
