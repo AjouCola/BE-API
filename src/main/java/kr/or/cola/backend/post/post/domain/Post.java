@@ -49,7 +49,7 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostTag> postTags = new ArrayList<>();
 
-    @Formula("(select count(1) from post_favor where post_favor.post_id=id and status=true)")
+    @Formula("(select count(1) from post_favor where post_favor.post_id=id and post_favor.status=true)")
     private int favorCount;
 
     @Builder
