@@ -83,6 +83,19 @@ public class PostController {
         return ResponseEntity.ok(postResponse);
     }
 
+    @GetMapping("/{keyword}")
+    public ResponseEntity<Page<SimplePostResponseDto>> searchPosts(
+        @LoginUser SessionUser sessionUser,
+        @PathVariable String keyword,
+        @PageableDefault(
+            size = 12,
+            sort = "id",
+            direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<SimplePostResponseDto> posts =
+            postService.searchAllPostByTag(sessionUser.getUserId(), keyword, pageable);
+        return ResponseEntity.ok(posts);
+    }
+
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
         postService.deletePost(postId);
