@@ -1,5 +1,7 @@
 package kr.or.cola.backend.auth;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import kr.or.cola.backend.auth.dto.AuthConfirmRequestDto;
 import kr.or.cola.backend.auth.dto.AuthMailRequestDto;
 import kr.or.cola.backend.oauth.LoginUser;
@@ -11,6 +13,9 @@ import kr.or.cola.backend.auth.dto.SignUpRequestDto;
 import kr.or.cola.backend.user.presentation.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +46,13 @@ public class AuthTokenController {
     public ResponseEntity<UserResponseDto> signUp(@LoginUser SessionUser sessionUser, @RequestBody SignUpRequestDto requestDto) {
         UserResponseDto user = userService.signUp(sessionUser.getUserId(), requestDto);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/logout")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        new SecurityContextLogoutHandler()
+            .logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+        return "redirect:/";
     }
 }
 
