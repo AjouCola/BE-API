@@ -98,18 +98,23 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<SimplePostResponseDto> findAllPostByPostType(SessionUser sessionUser, PostType postType, Pageable pageable) {
+    public Page<SimplePostResponseDto> findAllPostByPostType(Long userId,
+        PostType postType, Pageable pageable) {
         Page<Post> posts = postRepository.findByPostType(postType, pageable);
         Map<Long, PostFavorInfoResponseDto> favorMap = new HashMap<>();
 
         posts.forEach(post -> {
-            favorMap.put(post.getId(), postFavorService.getPostFavorInfo(sessionUser.getUserId(), post.getId()));
+            favorMap.put(
+                post.getId(),
+                postFavorService.getPostFavorInfo(userId, post.getId()));
         });
         return posts.map(post -> SimplePostResponseDto.builder()
-                .entity(post)
-                .favorInfoResponseDto(favorMap.get(post.getId())).build());
-
+            .entity(post)
+            .favorInfoResponseDto(favorMap.get(post.getId()))
+            .build());
     }
+
+
 
     @Transactional(readOnly = true)
     public Post initializePostInfo(Long postId) {

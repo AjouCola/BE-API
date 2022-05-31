@@ -55,9 +55,10 @@ public class PostController {
             @RequestParam(value = "category") PostType postType,
             @PageableDefault(
                 size = 12,
-                sort = "id",
+                sort = "favorCount",
                 direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<SimplePostResponseDto> posts = postService.findAllPostByPostType(sessionUser,postType, pageable);
+        Page<SimplePostResponseDto> posts =
+            postService.findAllPostByPostType(sessionUser.getUserId(), postType, pageable);
         return ResponseEntity.ok(posts);
     }
 
