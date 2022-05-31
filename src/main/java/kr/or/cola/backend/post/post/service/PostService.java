@@ -50,6 +50,7 @@ public class PostService {
             .title(post.getTitle())
             .content(post.getContent())
             .userInfo(new SimpleUserResponseDto(post.getUser()))
+            .favorInfoResponseDto(postFavorService.getPostFavorInfo(post.getUser().getId(), post.getId()))
             .comments(post.getComments().stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList()))
@@ -103,7 +104,6 @@ public class PostService {
         posts.forEach(post -> {
             favorMap.put(post.getId(), postFavorService.getPostFavorInfo(post.getUser().getId(), post.getId()));
         });
-//        .map(SimplePostResponseDto.builder().entity());
         return posts.map(post -> SimplePostResponseDto.builder()
                 .entity(post)
                 .favorInfoResponseDto(favorMap.get(post.getId())).build());
