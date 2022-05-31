@@ -62,6 +62,19 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
+    @GetMapping("/mine")
+    public ResponseEntity<Page<SimplePostResponseDto>> getMyPosts(
+            @LoginUser SessionUser sessionUser,
+            @PageableDefault(
+                    size = 12,
+                    sort = "id",
+                    direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<SimplePostResponseDto> posts =
+                postService.findAllPostByUserId(sessionUser.getUserId(), pageable);
+        return ResponseEntity.ok(posts);
+    }
+
+
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponseDto> getPost(
             @LoginUser SessionUser sessionUser,

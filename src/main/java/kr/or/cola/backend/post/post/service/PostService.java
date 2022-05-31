@@ -120,6 +120,23 @@ public class PostService {
             .build());
     }
 
+    @Transactional(readOnly = true)
+    public Page<SimplePostResponseDto> findAllPostByUserId(Long userId, Pageable pageable) {
+        Page<Post> posts = postRepository.findByUserId(userId, pageable);
+
+        Map<Long, PostFavorInfoResponseDto> favorMap = new HashMap<>();
+
+        posts.forEach(post -> {
+            favorMap.put(
+                    post.getId(),
+                    postFavorService.getPostFavorInfo(userId, post.getId()));
+        });
+        return posts.map(post -> SimplePostResponseDto.builder()
+                .entity(post)
+                .favorInfoResponseDto(favorMap.get(post.getId()))
+                .build());
+    }
+  
     public Page<SimplePostResponseDto> searchAllPostByTag(Long userId,
                                                           String keyword,
                                                           Pageable pageable) {
