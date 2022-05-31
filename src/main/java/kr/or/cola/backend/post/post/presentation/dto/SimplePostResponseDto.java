@@ -21,6 +21,7 @@ public class SimplePostResponseDto {
     private final LocalDateTime createdDate;
     private final LocalDateTime modifiedDate;
     private final PostType type;
+    private final int favorCount;
     private final PostFavorInfoResponseDto favorInfoResponseDto;
 
     @Builder
@@ -33,7 +34,7 @@ public class SimplePostResponseDto {
         this.createdDate = entity.getCreatedDate();
         this.modifiedDate = entity.getModifiedDate();
         this.type = entity.getPostType();
-
+        this.favorCount = entity.getFavorCount();
         this.favorInfoResponseDto = favorInfoResponseDto;
     }
 }
