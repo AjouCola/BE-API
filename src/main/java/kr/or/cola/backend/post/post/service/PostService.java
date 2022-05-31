@@ -18,6 +18,8 @@ import kr.or.cola.backend.post.post.presentation.dto.PostResponseDto;
 import kr.or.cola.backend.post.post.presentation.dto.SimplePostResponseDto;
 import kr.or.cola.backend.post.post_tag.domain.PostTag;
 import kr.or.cola.backend.post.post_tag.service.PostTagService;
+import kr.or.cola.backend.post.tag.domain.Tag;
+import kr.or.cola.backend.post.tag.service.TagService;
 import kr.or.cola.backend.user.domain.User;
 import kr.or.cola.backend.user.domain.UserRepository;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
@@ -40,6 +42,8 @@ public class PostService {
     private final PostTagService postTagService;
 
     private final PostFavorService postFavorService;
+
+    private final TagService tagService;
 
     private final AwsS3Service awsS3Service;
 
@@ -99,10 +103,10 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<SimplePostResponseDto> findAllPostByPostType(Long userId,
-        PostType postType, Pageable pageable) {
+                                                             PostType postType,
+                                                             Pageable pageable) {
         Page<Post> posts = postRepository.findByPostType(postType, pageable);
         Map<Long, PostFavorInfoResponseDto> favorMap = new HashMap<>();
-
         posts.forEach(post -> {
             favorMap.put(
                 post.getId(),
@@ -114,7 +118,21 @@ public class PostService {
             .build());
     }
 
-
+    public Page<SimplePostResponseDto> searchAllPostByTag(Long userId,
+                                                          String keyword,
+                                                          Pageable pageable) {
+        Page<Post> posts = postRepository.findAllByTitleContainsOrContentContains(keyword, keyword, pageable);
+        Map<Long, PostFavorInfoResponseDto> favorMap = new HashMap<>();
+        posts.forEach(post -> {
+            favorMap.put(
+                post.getId(),
+                postFavorService.getPostFavorInfo(userId, post.getId()));
+        });
+        return posts.map(post -> SimplePostResponseDto.builder()
+            .entity(post)
+            .favorInfoResponseDto(favorMap.get(post.getId()))
+            .build());
+    }
 
     @Transactional(readOnly = true)
     public Post initializePostInfo(Long postId) {
