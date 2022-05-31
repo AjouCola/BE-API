@@ -78,8 +78,12 @@ public class Post extends BaseTimeEntity {
                                String thumbnailPath) {
         this.title = title;
         this.content = content;
-        this.preview = preview;
-        this.thumbnailPath = thumbnailPath;
+        this.preview = preview == null
+            ? this.preview
+            : preview;
+        this.thumbnailPath = thumbnailPath == null
+            ? this.thumbnailPath
+            : thumbnailPath;
     }
 
     public void addPostTags(List<PostTag> postTags) {
