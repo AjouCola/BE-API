@@ -100,14 +100,14 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
 
     private User saveOrUpdate(OAuthAttributes attributes) {
         User user = userRepository.findByEmail(attributes.getEmail())
-            .orElse(attributes.toEntity());
+            .orElseGet(() -> attributes.toEntity());
 
         return userRepository.save(user);
     }
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-            .orElse(null);
+            .orElseGet(null);
     }
 
     public User findUserById(Long userId) {
