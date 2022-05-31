@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -52,7 +53,7 @@ public class PostController {
     @GetMapping("")
     public ResponseEntity<Page<SimplePostResponseDto>> getPosts(
             @LoginUser SessionUser sessionUser,
-            @RequestParam(value = "category") PostType postType,
+            @RequestParam(value = "category") @Nullable PostType postType,
             @PageableDefault(
                 size = 12,
                 sort = "id",
