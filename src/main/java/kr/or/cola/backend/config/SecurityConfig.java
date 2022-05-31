@@ -1,6 +1,5 @@
 package kr.or.cola.backend.config;
 
-import java.net.MalformedURLException;
 import kr.or.cola.backend.oauth.OAuth2AuthenticationSuccessHandler;
 import kr.or.cola.backend.user.UserService;
 import kr.or.cola.backend.user.domain.Role;
@@ -23,6 +22,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${cola.redirect-uri.sign-in}")
     private String signInUrl;
 
+    @Value("${cola.redirect-uri.main}")
+    private String mainUrl;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -36,9 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger*/**", "/v3/api-docs/**").permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name())
-            .and()
+                .and()
             .logout()
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl(mainUrl)
+                .invalidateHttpSession(true)
+                .deleteCookies("SESSION")
                 .and()
             .oauth2Login()
                 .successHandler(oAuth2AuthenticationSuccessHandler)
