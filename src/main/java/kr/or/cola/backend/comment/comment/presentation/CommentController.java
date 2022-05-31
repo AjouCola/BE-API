@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
 @RestController
@@ -26,6 +28,11 @@ public class CommentController {
     @GetMapping("/comments/{commentId}")
     public ResponseEntity<CommentResponseDto> getComment(@PathVariable Long commentId) {
         return ResponseEntity.ok(commentService.getComment(commentId));
+    }
+
+    @GetMapping("/comments/mine")
+    public ResponseEntity<List<CommentResponseDto>> getMyComments(@LoginUser SessionUser user) {
+        return ResponseEntity.ok(commentService.getCommentByUserId(user.getUserId()));
     }
 
     @PostMapping("/posts/{postId}/comments")
