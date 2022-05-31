@@ -1,8 +1,8 @@
-package kr.or.cola.backend.comment.presentation;
+package kr.or.cola.backend.comment.comment.presentation;
 
-import kr.or.cola.backend.comment.presentation.dto.CommentCreateOrUpdateRequestDto;
-import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
-import kr.or.cola.backend.comment.service.CommentService;
+import kr.or.cola.backend.comment.comment.service.CommentService;
+import kr.or.cola.backend.comment.comment.presentation.dto.CommentCreateOrUpdateRequestDto;
+import kr.or.cola.backend.comment.comment.presentation.dto.CommentResponseDto;
 import kr.or.cola.backend.oauth.LoginUser;
 import kr.or.cola.backend.oauth.dto.SessionUser;
 import lombok.RequiredArgsConstructor;

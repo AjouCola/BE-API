@@ -14,7 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import kr.or.cola.backend.comment.domain.Comment;
+import kr.or.cola.backend.comment.comment.domain.Comment;
 import kr.or.cola.backend.common.BaseTimeEntity;
 import kr.or.cola.backend.post.post_tag.domain.PostTag;
 import kr.or.cola.backend.user.domain.User;

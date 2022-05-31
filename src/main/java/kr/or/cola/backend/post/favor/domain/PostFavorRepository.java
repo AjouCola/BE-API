@@ -1,4 +1,4 @@
-package kr.or.cola.backend.favor.post.domain;
+package kr.or.cola.backend.post.favor.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

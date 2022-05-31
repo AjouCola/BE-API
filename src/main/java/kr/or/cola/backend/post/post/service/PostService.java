@@ -4,7 +4,7 @@ package kr.or.cola.backend.post.post.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import kr.or.cola.backend.aws.service.AwsS3Service;
-import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
+import kr.or.cola.backend.comment.comment.presentation.dto.CommentResponseDto;
 import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.post.post.domain.PostRepository;
 import kr.or.cola.backend.post.post.domain.PostType;

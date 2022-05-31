@@ -1,8 +1,8 @@
-package kr.or.cola.backend.favor.post;
+package kr.or.cola.backend.post.favor;
 
-import kr.or.cola.backend.favor.post.domain.PostFavor;
-import kr.or.cola.backend.favor.post.domain.PostFavorRepository;
-import kr.or.cola.backend.favor.post.dto.PostFavorResponseDto;
+import kr.or.cola.backend.post.favor.domain.PostFavor;
+import kr.or.cola.backend.post.favor.domain.PostFavorRepository;
+import kr.or.cola.backend.post.favor.dto.PostFavorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import software.amazon.ion.NullValueException;

@@ -1,6 +1,6 @@
-package kr.or.cola.backend.favor.post.dto;
+package kr.or.cola.backend.post.favor.dto;
 
-import kr.or.cola.backend.favor.post.domain.PostFavor;
+import kr.or.cola.backend.post.favor.domain.PostFavor;
 import lombok.Getter;
 
 @Getter

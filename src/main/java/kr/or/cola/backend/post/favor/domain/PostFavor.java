@@ -1,4 +1,4 @@
-package kr.or.cola.backend.favor.post.domain;
+package kr.or.cola.backend.post.favor.domain;
 
 import kr.or.cola.backend.common.BaseTimeEntity;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package kr.or.cola.backend.comment.domain;
+package kr.or.cola.backend.comment.comment.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

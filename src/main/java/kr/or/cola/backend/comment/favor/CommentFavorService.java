@@ -1,8 +1,8 @@
-package kr.or.cola.backend.favor.comment;
+package kr.or.cola.backend.comment.favor;
 
-import kr.or.cola.backend.favor.comment.domain.CommentFavor;
-import kr.or.cola.backend.favor.comment.domain.CommentFavorRepository;
-import kr.or.cola.backend.favor.comment.dto.CommentFavorResponseDto;
+import kr.or.cola.backend.comment.favor.domain.CommentFavor;
+import kr.or.cola.backend.comment.favor.domain.CommentFavorRepository;
+import kr.or.cola.backend.comment.favor.dto.CommentFavorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import software.amazon.ion.NullValueException;

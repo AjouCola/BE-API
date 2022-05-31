@@ -1,4 +1,4 @@
-package kr.or.cola.backend.comment.presentation.dto;
+package kr.or.cola.backend.comment.comment.presentation.dto;
 
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
