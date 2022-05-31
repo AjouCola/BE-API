@@ -1,15 +1,22 @@
 package kr.or.cola.backend.todo.dto;
 
-
-import kr.or.cola.backend.todo.folder.dto.FolderResponseDto;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Getter
+@NoArgsConstructor
 public class TodoResponseDto {
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
+
     private List<TodoFolderResponseDto> folders;
+
 
 
     @Builder

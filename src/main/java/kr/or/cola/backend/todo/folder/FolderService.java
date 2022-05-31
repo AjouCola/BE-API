@@ -29,8 +29,10 @@ public class FolderService {
                 .name(requestDto.getName())
                 .color(requestDto.getColor())
                 .build();
-
-        return folderRepository.save(folder).getFolderId();
+        Long folderId = folderRepository.save(folder).getFolderId();
+        user.addFolder(folderId);
+        userRepository.save(user);
+        return folderId;
     }
 
     // Read

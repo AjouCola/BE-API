@@ -39,7 +39,9 @@ public class ItemService {
 
     // Read
     public List<ItemDto> readItems(Long userId, LocalDate date) {
-        List<Long> folderIds = userRepository.findById(userId).orElseThrow().getFolderOrder();
+        List<Long> folderIds = userRepository.findById(userId)
+                .orElseThrow(()-> new IllegalArgumentException("invalid user"))
+                .getFolderOrder();
         return itemRepository.findAllByDateAndFolderIdIn(date, folderIds).stream()
                 .map(ItemDto::new).collect(Collectors.toList());
     }
