@@ -1,6 +1,9 @@
 package kr.or.cola.backend.comment.comment.service;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
 import kr.or.cola.backend.comment.comment.domain.Comment;
 import kr.or.cola.backend.comment.comment.domain.CommentRepository;
 import kr.or.cola.backend.comment.comment.presentation.dto.CommentCreateOrUpdateRequestDto;
@@ -23,9 +26,12 @@ public class CommentService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
 
-
     public CommentResponseDto getComment(Long commentId) {
         return new CommentResponseDto(initializeCommentInfo(commentId));
+    }
+
+    public List<CommentResponseDto> getCommentByUserId(Long userId) {
+        return commentRepository.findByUserId(userId).stream().map(CommentResponseDto::new).collect(Collectors.toList());
     }
 
     public Comment createComment(Long userId, Long postId, CommentCreateOrUpdateRequestDto requestDto) {
