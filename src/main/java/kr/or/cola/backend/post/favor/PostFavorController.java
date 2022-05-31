@@ -13,8 +13,8 @@ public class PostFavorController {
     private final PostFavorService postFavorService;
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Void> createOrUpdateLike(@LoginUser SessionUser sessionUser, @PathVariable Long postId){
-        postFavorService.createOrUpdateLike(sessionUser.getUserId(), postId);
+    public ResponseEntity<Void> createOrUpdateLike(@LoginUser SessionUser sessionUser, @PathVariable Long postId, @RequestParam Boolean status){
+        postFavorService.createOrUpdateLike(sessionUser.getUserId(), postId, status);
         return ResponseEntity.ok().build();
     }
 

@@ -20,10 +20,16 @@ public class PostFavor extends BaseTimeEntity {
 
     private Long userId;
     private Long postId;
+    private Boolean status;
 
     @Builder
-    public PostFavor(Long userId, Long postId) {
+    public PostFavor(Long userId, Long postId, Boolean status) {
         this.userId = userId;
         this.postId = postId;
+        this.status = status;
+    }
+
+    public void update(Boolean status) {
+        this.status = status;
     }
 }

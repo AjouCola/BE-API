@@ -16,10 +16,11 @@ import java.util.stream.Collectors;
 public class PostFavorService {
     private final PostFavorRepository postFavorRepository;
 
-    public void createOrUpdateLike(Long userId, Long postId) {
+    public void createOrUpdateLike(Long userId, Long postId, Boolean status) {
         PostFavor postFavor =  postFavorRepository
                 .findByUserIdAndPostId(userId, postId)
-                .orElse(new PostFavor(userId, postId));
+                .orElse(new PostFavor(userId, postId, status));
+        postFavor.update(status);
         postFavorRepository.save(postFavor);
     }
 
@@ -32,7 +33,7 @@ public class PostFavorService {
     public PostFavorInfoResponseDto getPostFavorInfo(Long userId, Long postId) {
         return PostFavorInfoResponseDto.builder()
                 .postId(postId)
-                .isFavor(postFavorRepository.existsByUserIdAndPostId(userId, postId))
+                .isFavor(postFavorRepository.findByUserIdAndPostId(userId, postId).orElse(new PostFavor(userId, postId, false)).getStatus())
                 .count(postFavorRepository.countPostFavorByPostId(postId))
                 .build();
     }

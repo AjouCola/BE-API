@@ -104,7 +104,9 @@ public class PostService {
             favorMap.put(post.getId(), postFavorService.getPostFavorInfo(post.getUser().getId(), post.getId()));
         });
 //        .map(SimplePostResponseDto.builder().entity());
-        return posts.map(post -> SimplePostResponseDto.builder().entity(post).favorInfoResponseDto(favorMap.get(post.getId())).build());
+        return posts.map(post -> SimplePostResponseDto.builder()
+                .entity(post)
+                .favorInfoResponseDto(favorMap.get(post.getId())).build());
 
     }
 
