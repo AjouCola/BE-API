@@ -33,8 +33,10 @@ public class PostFavorService {
     public PostFavorInfoResponseDto getPostFavorInfo(Long userId, Long postId) {
         return PostFavorInfoResponseDto.builder()
                 .postId(postId)
-                .isFavor(postFavorRepository.findByUserIdAndPostId(userId, postId).orElse(new PostFavor(userId, postId, false)).getStatus())
-                .count(postFavorRepository.countPostFavorByPostId(postId))
+                .isFavor(postFavorRepository.findByUserIdAndPostId(userId, postId)
+                        .orElse(new PostFavor(userId, postId, false))
+                        .getStatus())
+                .count(postFavorRepository.countPostFavorByPostIdAndStatus(postId, true))
                 .build();
     }
 
