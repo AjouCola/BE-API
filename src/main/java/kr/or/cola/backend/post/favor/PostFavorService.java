@@ -2,6 +2,7 @@ package kr.or.cola.backend.post.favor;
 
 import kr.or.cola.backend.post.favor.domain.PostFavor;
 import kr.or.cola.backend.post.favor.domain.PostFavorRepository;
+import kr.or.cola.backend.post.favor.dto.PostFavorInfoResponseDto;
 import kr.or.cola.backend.post.favor.dto.PostFavorResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,18 +29,13 @@ public class PostFavorService {
         postFavorRepository.delete(postFavor);
     }
 
-    public PostFavorResponseDto getPostLikes(Long userId, Long postId) {
-        return new PostFavorResponseDto(postFavorRepository.findByUserIdAndPostId(userId, postId)
-                .orElse(new PostFavor(userId, postId)));
+    public PostFavorInfoResponseDto getPostFavorInfo(Long userId, Long postId) {
+        return PostFavorInfoResponseDto.builder()
+                .postId(postId)
+                .isFavor(postFavorRepository.existsByUserIdAndPostId(userId, postId))
+                .count(postFavorRepository.countPostFavorByPostId(postId))
+                .build();
     }
 
-    public List<PostFavorResponseDto> getPostLikes(Long postId) {
-        return postFavorRepository.findAllByPostId(postId)
-                .stream().map(PostFavorResponseDto::new).collect(Collectors.toList());
-    }
 
-    public List<PostFavorResponseDto> getUserLikes(Long userId) {
-        return postFavorRepository.findAllByUserId(userId)
-                .stream().map(PostFavorResponseDto::new).collect(Collectors.toList());
-    }
 }

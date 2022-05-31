@@ -11,4 +11,7 @@ public interface PostFavorRepository extends JpaRepository<PostFavor, Long> {
 
     Optional<PostFavor> findByUserIdAndPostId(Long userId, Long postId);
 
+    int countPostFavorByPostId(Long postId);
+    Boolean existsByUserIdAndPostId(Long userId, Long postId);
+
 }
