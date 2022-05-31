@@ -51,18 +51,21 @@ public class PostController {
 
     @GetMapping("")
     public ResponseEntity<Page<SimplePostResponseDto>> getPosts(
+            @LoginUser SessionUser sessionUser,
             @RequestParam(value = "category") PostType postType,
             @PageableDefault(
                 size = 12,
                 sort = "id",
                 direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<SimplePostResponseDto> posts = postService.findAllPostByPostType(postType, pageable);
+        Page<SimplePostResponseDto> posts = postService.findAllPostByPostType(sessionUser,postType, pageable);
         return ResponseEntity.ok(posts);
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<PostResponseDto> getPost(@PathVariable Long postId) {
-        PostResponseDto postResponse = postService.getPost(postId);
+    public ResponseEntity<PostResponseDto> getPost(
+            @LoginUser SessionUser sessionUser,
+            @PathVariable Long postId) {
+        PostResponseDto postResponse = postService.getPost(sessionUser, postId);
         return ResponseEntity.ok(postResponse);
     }
 
