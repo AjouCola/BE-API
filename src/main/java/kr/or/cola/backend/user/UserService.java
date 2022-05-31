@@ -70,7 +70,7 @@ public class UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2U
             Folder.builder()
             .user(user)
             .name("일반")
-            .color("#ffffff")
+            .color("#6C7BFA")
             .build());
         List<Long> folderOrder = new ArrayList<>();
         folderOrder.add(defaultFolder.getFolderId());
