@@ -18,7 +18,7 @@ public class CommentFavorService {
     public void createOrUpdateLike(Long userId, Long commentId) {
         CommentFavor commentFavor =  commentFavorRepository
                 .findByUserIdAndCommentId(userId, commentId)
-                .orElse(new CommentFavor(userId, commentId));
+                .orElseGet(() -> new CommentFavor(userId, commentId));
         commentFavorRepository.save(commentFavor);
     }
 
@@ -30,7 +30,7 @@ public class CommentFavorService {
 
     public CommentFavorResponseDto getCommentLike(Long userId, Long commentId) {
         return new CommentFavorResponseDto(commentFavorRepository.findByUserIdAndCommentId(userId, commentId)
-                .orElse(new CommentFavor(userId, commentId)));
+                .orElseGet(() -> new CommentFavor(userId, commentId)));
     }
 
     public List<CommentFavorResponseDto> getCommentLikes(Long commentId) {

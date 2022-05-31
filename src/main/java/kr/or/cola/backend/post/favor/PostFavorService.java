@@ -19,7 +19,7 @@ public class PostFavorService {
     public void createOrUpdateLike(Long userId, Long postId, Boolean status) {
         PostFavor postFavor =  postFavorRepository
                 .findByUserIdAndPostId(userId, postId)
-                .orElse(new PostFavor(userId, postId, status));
+                .orElseGet(() -> new PostFavor(userId, postId, false));
         postFavor.update(status);
         postFavorRepository.save(postFavor);
     }
@@ -34,7 +34,7 @@ public class PostFavorService {
         return PostFavorInfoResponseDto.builder()
                 .postId(postId)
                 .isFavor(postFavorRepository.findByUserIdAndPostId(userId, postId)
-                        .orElse(new PostFavor(userId, postId, false))
+                        .orElseGet(() -> new PostFavor(userId, postId, false))
                         .getStatus())
                 .count(postFavorRepository.countPostFavorByPostIdAndStatus(postId, true))
                 .build();
