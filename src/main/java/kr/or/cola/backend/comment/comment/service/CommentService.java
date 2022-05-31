@@ -1,10 +1,10 @@
-package kr.or.cola.backend.comment.service;
+package kr.or.cola.backend.comment.comment.service;
 
 import java.util.Objects;
-import kr.or.cola.backend.comment.domain.Comment;
-import kr.or.cola.backend.comment.domain.CommentRepository;
-import kr.or.cola.backend.comment.presentation.dto.CommentCreateOrUpdateRequestDto;
-import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
+import kr.or.cola.backend.comment.comment.domain.Comment;
+import kr.or.cola.backend.comment.comment.domain.CommentRepository;
+import kr.or.cola.backend.comment.comment.presentation.dto.CommentCreateOrUpdateRequestDto;
+import kr.or.cola.backend.comment.comment.presentation.dto.CommentResponseDto;
 import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.post.post.domain.PostRepository;
 import kr.or.cola.backend.user.domain.User;

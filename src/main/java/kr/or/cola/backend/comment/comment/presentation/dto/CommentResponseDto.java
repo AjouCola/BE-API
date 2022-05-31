@@ -1,6 +1,6 @@
-package kr.or.cola.backend.comment.presentation.dto;
+package kr.or.cola.backend.comment.comment.presentation.dto;
 
-import kr.or.cola.backend.comment.domain.Comment;
+import kr.or.cola.backend.comment.comment.domain.Comment;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.Getter;
 

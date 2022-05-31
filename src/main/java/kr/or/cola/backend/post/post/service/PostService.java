@@ -1,10 +1,15 @@
 package kr.or.cola.backend.post.post.service;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import kr.or.cola.backend.aws.service.AwsS3Service;
-import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
+import kr.or.cola.backend.comment.comment.presentation.dto.CommentResponseDto;
+import kr.or.cola.backend.oauth.dto.SessionUser;
+import kr.or.cola.backend.post.favor.PostFavorService;
+import kr.or.cola.backend.post.favor.dto.PostFavorInfoResponseDto;
 import kr.or.cola.backend.post.post.domain.Post;
 import kr.or.cola.backend.post.post.domain.PostRepository;
 import kr.or.cola.backend.post.post.domain.PostType;
@@ -34,9 +39,11 @@ public class PostService {
 
     private final PostTagService postTagService;
 
+    private final PostFavorService postFavorService;
+
     private final AwsS3Service awsS3Service;
 
-    public PostResponseDto getPost(Long postId) {
+    public PostResponseDto getPost(SessionUser sessionUser, Long postId) {
         Post post = initializePostInfo(postId);
         return PostResponseDto.builder()
             .postId(post.getId())
@@ -44,6 +51,7 @@ public class PostService {
             .title(post.getTitle())
             .content(post.getContent())
             .userInfo(new SimpleUserResponseDto(post.getUser()))
+            .favorInfoResponseDto(postFavorService.getPostFavorInfo(sessionUser.getUserId(), post.getId()))
             .comments(post.getComments().stream()
                 .map(CommentResponseDto::new)
                 .collect(Collectors.toList()))
@@ -90,9 +98,17 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<SimplePostResponseDto> findAllPostByPostType(PostType postType, Pageable pageable) {
-        return postRepository.findByPostType(postType, pageable)
-            .map(SimplePostResponseDto::new);
+    public Page<SimplePostResponseDto> findAllPostByPostType(SessionUser sessionUser, PostType postType, Pageable pageable) {
+        Page<Post> posts = postRepository.findByPostType(postType, pageable);
+        Map<Long, PostFavorInfoResponseDto> favorMap = new HashMap<>();
+
+        posts.forEach(post -> {
+            favorMap.put(post.getId(), postFavorService.getPostFavorInfo(sessionUser.getUserId(), post.getId()));
+        });
+        return posts.map(post -> SimplePostResponseDto.builder()
+                .entity(post)
+                .favorInfoResponseDto(favorMap.get(post.getId())).build());
+
     }
 
     @Transactional(readOnly = true)

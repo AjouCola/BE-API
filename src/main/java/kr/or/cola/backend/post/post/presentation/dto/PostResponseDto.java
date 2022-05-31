@@ -2,7 +2,8 @@ package kr.or.cola.backend.post.post.presentation.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import kr.or.cola.backend.comment.presentation.dto.CommentResponseDto;
+import kr.or.cola.backend.comment.comment.presentation.dto.CommentResponseDto;
+import kr.or.cola.backend.post.favor.dto.PostFavorInfoResponseDto;
 import kr.or.cola.backend.post.post.domain.PostType;
 import kr.or.cola.backend.user.presentation.dto.SimpleUserResponseDto;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,8 @@ public class PostResponseDto {
     private final String content;
 
     private final SimpleUserResponseDto userInfo;
+
+    private final PostFavorInfoResponseDto favorInfoResponseDto;
 
     private final List<CommentResponseDto> comments;
 
