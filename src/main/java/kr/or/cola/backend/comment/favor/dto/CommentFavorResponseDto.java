@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public class CommentFavorResponseDto {
     private Long userId;
-    private Long contentId;
+    private Long commentId;
 
     public CommentFavorResponseDto(CommentFavor commentFavor){
-        this.contentId = commentFavor.getCommentId();
+        this.commentId = commentFavor.getCommentId();
         this.userId = commentFavor.getUserId();
     }
 }

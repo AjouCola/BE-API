@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.*;
 public class CommentFavorController {
     private final CommentFavorService commentFavorService;
 
-    @GetMapping("/{postId}")
-    public ResponseEntity<Void> createOrUpdateLike(@LoginUser SessionUser sessionUser, @PathVariable Long postId){
-        commentFavorService.createOrUpdateLike(sessionUser.getUserId(), postId);
+    @GetMapping("/{commentId}")
+    public ResponseEntity<Void> createOrUpdateLike(@LoginUser SessionUser sessionUser, @PathVariable Long commentId){
+        commentFavorService.createOrUpdateLike(sessionUser.getUserId(), commentId);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deleteLike(@LoginUser SessionUser sessionUser, @PathVariable Long postId) {
-        commentFavorService.deleteLike(sessionUser.getUserId(), postId);
+    @DeleteMapping("/{commentId}")
+    public ResponseEntity<Void> deleteLike(@LoginUser SessionUser sessionUser, @PathVariable Long commentId) {
+        commentFavorService.deleteLike(sessionUser.getUserId(), commentId);
         return ResponseEntity.ok().build();
     }
 }
