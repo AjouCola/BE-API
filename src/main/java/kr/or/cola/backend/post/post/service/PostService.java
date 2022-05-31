@@ -105,7 +105,9 @@ public class PostService {
     public Page<SimplePostResponseDto> findAllPostByPostType(Long userId,
                                                              PostType postType,
                                                              Pageable pageable) {
-        Page<Post> posts = postRepository.findByPostType(postType, pageable);
+        Page<Post> posts = postType == null
+            ? postRepository.findAll(pageable)
+            : postRepository.findAllByPostType(postType, pageable);
         Map<Long, PostFavorInfoResponseDto> favorMap = new HashMap<>();
         posts.forEach(post -> {
             favorMap.put(
