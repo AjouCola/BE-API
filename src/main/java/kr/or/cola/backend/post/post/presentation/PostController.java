@@ -84,7 +84,7 @@ public class PostController {
         return ResponseEntity.ok(postResponse);
     }
 
-    @GetMapping("/{keyword}")
+    @GetMapping("/search/{keyword}")
     public ResponseEntity<Page<SimplePostResponseDto>> searchPosts(
         @LoginUser SessionUser sessionUser,
         @PathVariable String keyword,
