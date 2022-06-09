@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -28,7 +29,7 @@ public class CustomMailSender {
         mailMessage.setTo(receiverEmail);
         mailMessage.setSubject("회원가입 이메일 인증");
         mailMessage.setText(authToken);
-
+        mailMessage.setFrom(managerEmail);
         sendEmail(mailMessage);
     }
 
